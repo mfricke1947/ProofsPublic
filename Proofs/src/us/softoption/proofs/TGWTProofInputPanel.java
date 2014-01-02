@@ -2,10 +2,11 @@ package us.softoption.proofs;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RichTextArea;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -36,6 +37,8 @@ public class TGWTProofInputPanel extends Composite{
   private VerticalPanel fOuter = new VerticalPanel();
   private HorizontalPanel fSymbolPalette = new HorizontalPanel();
   private HorizontalPanel fSymbolToolbar = new HorizontalPanel();
+  
+//  GWTSymbolToolbar fSymbolToolbar;  // 2014 copying finish with palette
   private HorizontalPanel fComponentsPanel = new HorizontalPanel();
   
   /*
@@ -53,28 +56,14 @@ public class TGWTProofInputPanel extends Composite{
   /*One label no palette */
   
   
-  public TGWTProofInputPanel(String label,  TextBox textField, Widget [] components) {   // mf code not JBuilder
+  public TGWTProofInputPanel(String label,         //label
+		  					TextBox textField,     // text input
+		  					Widget [] components) {   // cancel, go buttons +
 
- /*   this.setMaximumSize(new Dimension(32767, 32767));
-    this.setMinimumSize(new Dimension(100, 81));
-    this.setPreferredSize(new Dimension(100, 81));
-    this.setLayout(new GridBagLayout());                   // the outer grid is a column of 3
-*/
-   // fLabel1.setMinimumSize(new Dimension(45, 16));
-   // fLabel1.setText(label);
-    
     fLabel1= new Label(label);   //new Jan 09
 
     fText1 = textField;
 
-/*    fText1.setDragEnabled(true);
-    
-    fComponentsPanel.setMaximumSize(new Dimension(2147483647, 30));
-    fComponentsPanel.setMinimumSize(new Dimension(405, 30));
-    fComponentsPanel.setPreferredSize(new Dimension(405, 30));
-
-    fComponentsPanel.setLayout(new GridBagLayout());               // the inner grid is a row of n buttons
-*/
     prepareComponentsPanel(components);
 
     fOuter.add(fLabel1);
@@ -92,22 +81,9 @@ public class TGWTProofInputPanel extends Composite{
   public TGWTProofInputPanel(String label, 
 		                  TextBox textField, 
 		                  Widget [] components,
-		                  String symbols) {   // mf code not JBuilder
-/*
-	    this.setMaximumSize(new Dimension(32767, 32767));
-	    this.setMinimumSize(new Dimension(100, 81));
-	    this.setPreferredSize(new Dimension(100, 81));
-	    this.setLayout(new GridBagLayout());                   // the outer grid is a column of 3
-*/
+		                  String symbols) {   // palette
+
 	   fLabel1= new Label(label);
-	    
-	/*    fLabel1.setMinimumSize(new Dimension(45, 16));
-	    fLabel1.setPreferredSize(new Dimension(200, 16));   // using symbol palette-- keep to left 200
-	    fLabel1.setMaximumSize(new Dimension(200, 16));
-	    fLabel1.setSize(new Dimension(200, 16));
-	    fLabel1.setText(label); */
-	    
-	   // fLabel1.setBorder(BorderFactory.createEtchedBorder());
 
 	    fText1 = textField;
 
@@ -117,31 +93,27 @@ public class TGWTProofInputPanel extends Composite{
 	    initializeSymbolPalette(symbols);
 	    initializeSymbolToolbar(symbols);
 	    
-	  //  fSymbolPalette.setBorder(BorderFactory.createEtchedBorder());
-
-/*	    fComponentsPanel.setMaximumSize(new Dimension(2147483647, 30));
-	    fComponentsPanel.setMinimumSize(new Dimension(405, 30));
-	    fComponentsPanel.setPreferredSize(new Dimension(405, 30));
-
-	    fComponentsPanel.setLayout(new GridBagLayout());               // the inner grid is a row of n buttons
-
-*/
-	    prepareComponentsPanel(components);
+//		fSymbolToolbar = new GWTSymbolToolbar(fText1,symbols);
+	    
+		prepareComponentsPanel(components);
 	    
 	    fText1.setWidth("440px");
 
         fOuter.add(fLabel1);
-	    fOuter.add(fSymbolToolbar);
+	  //  fOuter.add(fSymbolToolbar);  //above text?
+	    fOuter.add(fSymbolPalette);  //above text?
 	  
 	    fOuter.add(fText1);
 	    fOuter.add(fComponentsPanel);
 	    
 	    initWidget(fOuter);
-	    
-	    
+	    	    
 	    }
 
- /*We have here a vertical grid of label, static text, label, static text, panel of horizontal grid of buttons*/
+ /*We have here a vertical grid of 5 items label, TextBox, label, TextBox, 
+  * panel of horizontal grid of buttons, which can be Cancel Go
+  * and list of rewrite rules*/
+  /*Used for rewrites
 /*  Two Labels */
 
     public TGWTProofInputPanel(String label1,
@@ -239,9 +211,44 @@ initWidget(fOuter);
 void initializeSymbolPalette(String symbols){
 	//Palette aPalette = new Palette(fSymbolPalette,symbols,fText1);
 	
-	if(symbols!=null){
-/*		fSymbolPalette= new Palette(symbols,fText1);
-		fSymbolPalette.setSize(new Dimension(300, 21));         //was 300
+	fSymbolPalette.setStyleName("inputSymbolPalette");
+	
+	//fSymbolPalette.setHeight("22px");  prefer to css this, but cannot seem to do it
+	
+	fSymbolPalette.setSpacing(1);
+	
+	if(symbols!=null&&!symbols.equals("")){
+		String subStr;
+		PushButton b;
+		
+		
+		
+		for (int i=0;i<symbols.length();i++){
+			  subStr=symbols.substring(i, i+1);
+			  b=createSymbolButton(subStr); 
+			  b.setSize("10px","14px");
+			  fSymbolPalette.add(b);    
+			  }
+
+		
+		
+/*
+ *   Button b = new Button("Jump!", new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        Window.alert("How high?");
+      }
+    });
+ * 
+ * 		
+ */
+		
+		
+		
+		
+		
+		
+		/*	fSymbolPalette= new Palette(symbols,fText1);
+				fSymbolPalette.setSize(new Dimension(300, 21));         //was 300
 		fSymbolPalette.setMaximumSize(new Dimension(300, 21));
 		fSymbolPalette.setMinimumSize(new Dimension(300, 21));
 		fSymbolPalette.setPreferredSize(new Dimension(300, 21)); */
@@ -281,7 +288,39 @@ void initializeSymbolPalette(String symbols){
 	} */
 }
 
+
+PushButton createSymbolButton(final String symbol){
+	PushButton b=new PushButton(symbol, new ClickHandler() {
+	      public void onClick(ClickEvent event) {
+//	        Window.alert("How high?");
+	        
+	        int selStart=fText1.getCursorPos();
+	        String selection=fText1.getSelectedText();
+	        int selEnd= selStart+ selection.length();
+	        String oldText=fText1.getText();
+	        
+	        String newText= oldText.substring(0,selStart) +
+	        				symbol+
+	        				oldText.substring(selEnd);
+	        fText1.setText(newText);
+	        
+	        
+			//	int start=fText1.getSelectionStart();
+			//	int end=fText1.getSelectionEnd();
+		//		fText1.replaceSelection(symbol);
+	        
+	        
+	      }
+	    });
+	return b;
+}
+
 void initializeSymbolButton(Widget button, final String symbol){
+	
+	
+	
+	
+	
 /*	button.setSize(20, 20);
 	button.setPreferredSize(new Dimension(20, 20));  //was 20x20
 	button.putClientProperty( "JButton.buttonType", "toolbar"  );

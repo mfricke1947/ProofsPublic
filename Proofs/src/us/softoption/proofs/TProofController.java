@@ -380,7 +380,7 @@ public static final char chTherefore='\u2234';
 	
 	/*************** End of fields **********************/
 	
-	
+/* note no Parser is created here, one has to be passed */	
 	
 	public TProofController(){
 				
@@ -388,14 +388,8 @@ public static final char chTherefore='\u2234';
 		  fModel = fDisplayCellTable.getModel();
 		  fModel.setDisplay(fDisplayCellTable);
 		  
-		  localizeJustStrings();
-		  
+		  localizeJustStrings();		  
 		  componentInitialization();
-		
-		
-		
-		
-		
 
 	}		
 	
@@ -417,7 +411,10 @@ public TProofController(TParser aParser, TReset aClient,TJournal itsJournal, Ver
 	  fProofClient=aClient;
 	  fJournal=itsJournal;
 	  fInputPanel = inputPanel;
-	
+	  
+	  fInputPalette=fParser.getInputPalette(fLambda,TPreferencesData.fModal,TPreferencesData.fSetTheory);  //(boolean lambda,boolean modal,
+// mf Jan 2014 unsure about how the inputpalette should know what symbols
+	  
 	  fDisplayCellTable = itsDisplay;//new TProofDisplayCellTable(this);
 	  fModel = fDisplayCellTable.getModel();
 	  fModel.setDisplay(fDisplayCellTable);
