@@ -3,7 +3,7 @@
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <link type="text/css" rel="stylesheet" href="../Proofs.css">
-    <title>Gentzen Exercise 5a</title>
+    <title>Bergmann Exercise D5c</title>
     <script type="text/javascript" language="javascript" src="../proofs/proofs.nocache.js"></script>
   </head>
   <!--                                           -->
@@ -22,13 +22,30 @@
     <script type="text/javascript" language="javascript">
    var Parameters = {
  
-  fParser: "gentzen",
+  fParser: "bergmann",
   fPropLevel: "true",
-  fAdvancedMenu: "false",
+  fAdvancedMenu: "true",
+  fIdentity: "true",
+  fFirstOrder: "true",
   
-  proof0: value="~~F ∴ F",
-  proof1: value="~(~(~F)) ∴ ~F",
-  proof2: value="F, ∼∼∼∼G,H∴G",
+  proof0: value="1=0',(∀x)(∀y)(x'=y'⊃x=y),"+
+"(∀x)~(x'=0),"+
+"(∀x)(x+0=x),"+
+"(∀x)(∀y)(x+y'=(x+y)'),"+
+"(∀x)(x.0=0),"+
+"(∀x)(∀y)(x.y'=x.y+x)"+
+"∴u+1=u'",
+  proof1: value="2=0'',(∀x)(∀y)(x'=y'⊃x=y),"+
+"(∀x)~(x'=0),"+
+"(∀x)(x+0=x),"+
+"(∀x)(∀y)(x+y'=(x+y)'),"+
+"(∀x)(x.0=0),"+
+"(∀x)(∀y)(x.y'=x.y+x)"+
+"∴2.u=u+u",
+
+
+
+ 
  
 };
   </script>

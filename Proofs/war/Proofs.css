@@ -16,6 +16,10 @@
  word-wrap: break-word;
 }
 
+#menu { 
+
+  margin-right:14px;  /*to stop the wizard items from wrapping */
+}
 
 .gwt-MenuBar { 
    float: right; 

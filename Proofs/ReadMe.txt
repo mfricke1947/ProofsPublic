@@ -1,4 +1,7 @@
-3. The TGWTProofInputPanel does not have a symbol palette, commented out, it should!
+
+4. Item 3 now done 1/2/2014
+
+3. The TGWTProofInputPanel does not have a symbol palette, commented out, it shoulld
 	For the journal we are using GWTSymbolToolbar gwt-RichTextToolbar (which is
 	a table of buttons).
 
@@ -8,4 +11,4 @@
 	local file check off, off the developer menu
 
 1. 12/30/2013 Starting out. No Set Theory Menu. Set Theory added today, remember the u umlaut
-	Universe.
+	Universe symbol.

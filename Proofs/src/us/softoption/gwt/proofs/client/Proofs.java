@@ -17,6 +17,7 @@ import us.softoption.parser.THausmanParser;
 import us.softoption.parser.THerrickParser;
 import us.softoption.parser.THowsonParser;
 import us.softoption.parser.TParser;
+import us.softoption.proofs.TMyBergmannProofController;
 import us.softoption.proofs.TMyGentzenProofController;
 import us.softoption.proofs.TMyProofController;
 import us.softoption.proofs.TProofController;
@@ -572,7 +573,7 @@ void setLocalParameters(){
 	if (parser!=null) {
 		if (parser.equals("bergmann")){
 			   fParser =new TBergmannParser();
-			   fProofController=new TMyProofController (fParser,this,this,fInputPanel,fDisplayTable);
+			   fProofController=new TMyBergmannProofController (fParser,this,this,fInputPanel,fDisplayTable);
 		   }
 		else if (parser.equals("copi")){
 			   fParser =new TCopiParser();

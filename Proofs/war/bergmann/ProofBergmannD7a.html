@@ -3,7 +3,7 @@
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <link type="text/css" rel="stylesheet" href="../Proofs.css">
-    <title>Gentzen Exercise 5a</title>
+    <title>Bergmann Exercise D7a</title>
     <script type="text/javascript" language="javascript" src="../proofs/proofs.nocache.js"></script>
   </head>
   <!--                                           -->
@@ -22,13 +22,17 @@
     <script type="text/javascript" language="javascript">
    var Parameters = {
  
-  fParser: "gentzen",
-  fPropLevel: "true",
-  fAdvancedMenu: "false",
+  fParser: "bergmann",
+  fSetTheory: "true",
+  fIdentity: "true",
   
-  proof0: value="~~F ∴ F",
-  proof1: value="~(~(~F)) ∴ ~F",
-  proof2: value="F, ∼∼∼∼G,H∴G",
+  proof0: value="∴ ((u⊂v)∧ (v⊂w))⊃ (u⊂w)",
+  proof1: value="∴ ((u⊂v)∧ (v⊂u))⊃ (u=v)",
+  proof2: value="∴ (u=v)⊃ ((u⊂v)∧ (v⊂u))",
+
+
+
+ 
  
 };
   </script>
@@ -36,8 +40,7 @@
       <h3>&nbsp;Proofs</h3>
       <div id="menu"> </div>
       <!--
-<div id="menubuttons"> </div>
-<div id="editbuttons"> </div>  -->
+<div id="menubuttons"> </div><div id="editbuttons"> </div>  -->
       <div id="input"> </div>
       <div id="proof"> </div>
       <div id="startButton"></div>

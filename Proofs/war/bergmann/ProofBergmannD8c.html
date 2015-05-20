@@ -3,7 +3,7 @@
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <link type="text/css" rel="stylesheet" href="../Proofs.css">
-    <title>Gentzen Exercise 5a</title>
+    <title>Bergmann Exercise D8c</title>
     <script type="text/javascript" language="javascript" src="../proofs/proofs.nocache.js"></script>
   </head>
   <!--                                           -->
@@ -22,13 +22,21 @@
     <script type="text/javascript" language="javascript">
    var Parameters = {
  
-  fParser: "gentzen",
-  fPropLevel: "true",
-  fAdvancedMenu: "false",
+  fParser: "bergmann",
+  fSetTheory: "true",
+  fIdentity: "true",
+  fInputText:"<p>1. ∴ ℘(∅)= {∅,∅}<br><br>"+
+"2. {∅}={∅,∅} ∴ ℘(∅)= {∅}    /*power set has one member*/ <br><br>"+
+"3. {a}={x:(x=a)},{∅,{a}}={x:(x=a∨x={a})} ∴ ℘({a})= {∅,{a}}          /*two members*/ <br><br>"+
+"4. {∅}={x:(x=∅)},{∅,{∅}}={x:(x=∅∨x={∅})} ∴ ℘({∅})= {∅,{∅}}<br><br>"+
+"5. {a}={x:(x=a)},{∅,{a}}={x:(x=a∨x={a})} ∴ ℘({a})= {∅,{a},{b},{a,b}}        /*four members*/ <br>"+
+"</p>",
   
-  proof0: value="~~F ∴ F",
-  proof1: value="~(~(~F)) ∴ ~F",
-  proof2: value="F, ∼∼∼∼G,H∴G",
+
+
+
+
+ 
  
 };
   </script>
@@ -36,8 +44,7 @@
       <h3>&nbsp;Proofs</h3>
       <div id="menu"> </div>
       <!--
-<div id="menubuttons"> </div>
-<div id="editbuttons"> </div>  -->
+<div id="menubuttons"> </div><div id="editbuttons"> </div>  -->
       <div id="input"> </div>
       <div id="proof"> </div>
       <div id="startButton"></div>
