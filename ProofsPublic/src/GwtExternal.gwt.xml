@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+
+<inherits name='com.google.gwt.user.User'/>
+
+<!-- Inherit the default GWT style sheet.  You can change       -->
+  <!-- the theme of your GWT application by uncommenting          -->
+  <!-- any one of the following lines.                            -->
+  <!--<inherits name='com.google.gwt.user.theme.clean.Clean'/>    -->
+   <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
+  <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>   -->   
+
+  
+  <!-- My stylesheet                    -->
+  <stylesheet src='../Proofs.css'/>
+  
+  
+
+  
+  <!-- Specify the paths for translatable code                    -->
+
+<!--  <source path='jscheme'/  -->
+<!--   <source path='us/softoption/editor'/> -->
+<!--   <source path='jscheme'/>  -->
+  <source path='us/softoption/infrastructure'/>
+
+  <source path='us/softoption/parser'/>
+  <source path='us/softoption/editor'/>
+ 
+<source path='us/softoption/proofs'/>
+<source path='us/softoption/interpretation'/>
+
+ 
+<source path='javax/swing/tree'/>
+<source path='javax/swing/event'/>
+
+
+  <source path='us/softoption/tree'/>
+  <source path='java'/>
+  
+  <source path='java/io'/>  <!-- 12/2/11 -->
+  
+  <source path='us/softoption/games'/>
+  <source path='us/softoption/gwt/games'/>
+  
+  <source path='gnu/java/util'/>
+  <!--   <source path='javax/swing/tree'/>
+  
+    <source path='javax/swing/event'/>  2/4/13 -->
+  
+    <source path='com/google/gwt/sample/showcase/client/content/text/'/> 
+
+
+ 
+
+
+</module>
