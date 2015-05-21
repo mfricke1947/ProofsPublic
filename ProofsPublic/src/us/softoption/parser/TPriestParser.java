@@ -1,3 +1,19 @@
+/*
+Copyright (C) 2014 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 package us.softoption.parser;
 
 //8/9/06
@@ -18,7 +34,7 @@ import java.util.ArrayList;
 
 
 
-public class TPriestParser extends /*Howson*/TParser{
+public class TPriestParser extends TParser{
 
   /*We want several different parsers of similar structure; we define generic procedures
    which are called in the normal way.  Most documents and windows have fParser fields to
@@ -38,7 +54,7 @@ public class TPriestParser extends /*Howson*/TParser{
 	
 
   /*constants*/
-	public static byte PRIEST= CCParser.BRACKETFREEQUANTS;
+public static byte PRIEST= CCParser.BRACKETFREEQUANTS;
 
 
   String fAccessPred="r";  // we want to have 0r1 as wff to mean world 0 can access world 1
@@ -57,19 +73,29 @@ public class TPriestParser extends /*Howson*/TParser{
 
   }
   
+    public TPriestParser(Reader aReader,boolean firstOrder)
+  {
+      super(aReader,firstOrder);
+ 
+
+    fPossibleWorlds = "0123456789"+"klmnopqrstuvwxyzabcdefghij";
+
+  }
+
+  @Override
   public boolean term (TFormula root, Reader aReader){    // sometimes called externally to parse term
 		TFormula cCroot;
 		
 		  if (fCCParser==null)
-			  fCCParser=new CCParser(/*new java.io.BufferedReader(aReader)*/ aReader,PRIEST);
+			  fCCParser=new CCParser(aReader,PRIEST);
 		  else
-			  fCCParser.reInit(/*new java.io.BufferedReader(aReader)*/ aReader,PRIEST);
+			  fCCParser.reInit(aReader,PRIEST);
 		 
 		try {
 			cCroot= fCCParser.term();
 	    } catch (ParseException e) {
 	    	cCroot=null;
-	    //    System.out.println("Not parsed");
+
 	    }	
 		
 	if(cCroot==null)
@@ -83,27 +109,27 @@ public class TPriestParser extends /*Howson*/TParser{
 } 
 
 
-
-public boolean wffCheck (TFormula root, /*ArrayList<TFormula> newValuation,*/Reader aReader){
+  @Override
+public boolean wffCheck (TFormula root, Reader aReader){
 	  TFormula cCroot;
 	  
 	  if (fCCParser==null)
-		  fCCParser=new CCParser(/*new java.io.BufferedReader(aReader)*/ aReader,PRIEST);
+		  fCCParser=new CCParser(aReader,PRIEST);
 	  else
-		  fCCParser.reInit(/*new java.io.BufferedReader(aReader)*/ aReader,PRIEST);
+		  fCCParser.reInit( aReader,PRIEST);
 
 	  try {
 	  		cCroot= fCCParser.wffCheck();
 	      } catch (ParseException e) {
 	      	cCroot=null;
-	      //    System.out.println("Not parsed");
+
 	      	
 	      	initializeErrorString();   	
-	  //use for debug    	fParserErrorMessage.write(e.getMessage());
+
 	      	
 	      	writeError("(*Selection not well-formed*)");
 	      	
-	  //    	System.out.println(e.getMessage());
+
 	      	
 	      }	
 	  	
@@ -117,6 +143,7 @@ public boolean wffCheck (TFormula root, /*ArrayList<TFormula> newValuation,*/Rea
 	  }
 }
 
+  @Override
 public boolean wffCheck (TFormula root, ArrayList<TFormula> newValuation,Reader aReader){
 //need to write this if you need it
 	  
@@ -125,21 +152,15 @@ public boolean wffCheck (TFormula root, ArrayList<TFormula> newValuation,Reader 
 } 
   
 
-  public TPriestParser(Reader aReader,boolean firstOrder)
-  {
-      super(aReader,firstOrder);
- 
 
-    fPossibleWorlds = "0123456789"+"klmnopqrstuvwxyzabcdefghij";
-
-  }
 
 
   /*************  Access relations for possible worlds *********************/
 
           /* an Access relation has special meaning the the modal logic, etrees */
 
-  public TFormula makeAnAccessRelation(String world1,String world2){      /*predicate 1r2*/
+   @Override 
+public TFormula makeAnAccessRelation(String world1,String world2){      /*predicate 1r2*/
              TFormula newnode = new TFormula();  // lot of running down the end in this one
 
 
@@ -169,7 +190,7 @@ public boolean wffCheck (TFormula root, ArrayList<TFormula> newValuation,Reader 
                  newnode;
            }
 
-
+  @Override
   public String getAccessRelation(TFormula root){      /*predicate Access(w1,w2)*/
 
           String outStr="";
@@ -196,6 +217,7 @@ public boolean wffCheck (TFormula root, ArrayList<TFormula> newValuation,Reader 
                outStr;
           }
 
+    @Override
 public String startWorld(){   // for premises of tree etc.
             return
                 "0";
@@ -206,25 +228,27 @@ public String startWorld(){   // for premises of tree etc.
 
 
 
-
+  @Override
   public String renderNot() {
     return
         String.valueOf(chNotSign);
   }
-
+  @Override
   public String renderAnd() {
 	    return
 	        String.valueOf(chAnd);
 	  }
+    @Override
   public String renderImplic() {
 	    return
 	        String.valueOf(chImplic);
 	  }
+    @Override
   public String renderEquiv() {
 	    return
 	        String.valueOf(chEquiv);
 	  }
-
+  @Override
   public String translateConnective(String connective) {
 
     if (connective.equals(String.valueOf(chNeg)))
@@ -245,7 +269,7 @@ public String startWorld(){   // for premises of tree etc.
   }
 
 
-
+  @Override
   boolean isPredInfix (String inf)
 
     /* note this allows in more for Access than numerals ie 0r1 is wff so is rrr  */
@@ -259,50 +283,8 @@ public String startWorld(){   // for premises of tree etc.
           return super.isPredInfix(inf);  // = or <
         }
 
-  /*
-        boolean infixPredicate(TFormula root)
-            /*<term1> =<term2> or <term1> <<term2> or <term1>r<term2>whatever*/
- /*           {
-           TFormula leftTerm, rightTerm;
-
-            leftTerm = new TFormula();
-            if (this.term(leftTerm))
-                root.appendToFormulaList(leftTerm);
-            else
-                return ILLFORMED;
-
-           if (fCurrCh==chEquals||fCurrCh==chLessThan||fCurrCh==chAccess)
-                {
-                if (fCurrCh == chEquals)
-                    root.fKind = equality;
-                else
-                    root.fKind = predicator;
-
-                root.fInfo = String.valueOf(fCurrCh);    /*=,< or whatever}*/
-
-/*                skip(1);
-                }
-            else
-                {
-
-                writeError("(*The character '"+fCurrCh+"' should be = or < or r.*)");
-
-                return ILLFORMED;
-                }
-
-
-            rightTerm = new TFormula();
-            if (this.term(rightTerm))
-                {
-                root.appendToFormulaList(rightTerm);
-                return WELLFORMED;
-                }
-            else
-                return ILLFORMED;
-            }
-
-*/
-
+  
+  @Override
 public void writePredicate(TFormula predicateForm)
                     {
                     if (fAccessPred.equals(predicateForm.fInfo))
@@ -319,7 +301,7 @@ public void writePredicate(TFormula predicateForm)
                               }
         }
 
-
+  @Override
         public String writePredicateToString (TFormula predicate){
 
         if (fAccessPred.equals(predicate.fInfo))
@@ -341,7 +323,7 @@ public void writePredicate(TFormula predicateForm)
 
             }
 }
-        
+     @Override     
         public String writeQuantifierToString(TFormula root){
 
             String prefix = new String();
@@ -362,7 +344,7 @@ public void writePredicate(TFormula predicateForm)
 
 
 }
-
+  @Override
           public String writeTypedQuantifierToString(TFormula root){
                       String prefix = new String();
                       String scope = new String();

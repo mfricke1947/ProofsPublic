@@ -1,3 +1,19 @@
+/*
+Copyright (C) 2014 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 package us.softoption.parser;
 
 
@@ -18,6 +34,10 @@ import java.util.ArrayList;
 
 import us.softoption.infrastructure.TConstants;
 
+/*These parsers do not have brackets round quantifiers
+but do have them around the arguments to terms and predicates
+*/
+
 public class TDefaultParser extends TParser{
 	
 	CCParserTwo fCCParserTwo;
@@ -25,12 +45,14 @@ public class TDefaultParser extends TParser{
   public TDefaultParser() {
 	  java.io.StringReader sr = new java.io.StringReader( "" );
 
-	  fCCParserTwo=new CCParserTwo(/*new java.io.BufferedReader(sr)*/ sr);
+	  fCCParserTwo=new CCParserTwo(sr);
 	  
 	  fMinCellWidth=14;
   }
+
  
  
+@Override 
   public boolean term (TFormula root, Reader aReader){    // sometimes called externally to parse term
 		TFormula cCroot;
 		
@@ -58,7 +80,7 @@ public class TDefaultParser extends TParser{
   } 
   
   
-  
+@Override  
   public boolean wffCheck (TFormula root, /*ArrayList<TFormula> newValuation,*/Reader aReader){
 	  TFormula cCroot;
 	  
@@ -92,7 +114,8 @@ public class TDefaultParser extends TParser{
 	  		WELLFORMED;
 	  }
   }
-  
+ 
+  @Override 
   public boolean wffCheck (TFormula root, ArrayList<TFormula> newValuation,Reader aReader){
 //need to write this if you need it
 	  
@@ -139,12 +162,13 @@ public class TDefaultParser extends TParser{
 
 
  /***************  writing **************************/ 
-  
+ 
+  @Override 
   public String renderAnd() {
     return
         String.valueOf(chAnd2);
   }
-
+@Override 
   public String renderImplic() {
   return
       String.valueOf(chArrow);
@@ -155,6 +179,7 @@ return
     String.valueOf(chHArr);
 }*/
 
+  @Override 
   public String translateConnective(String connective) {
 
     if (connective.equals(String.valueOf(chAnd)))
@@ -176,8 +201,8 @@ return
   }
 
 
-
-  public String writeQuantifierToString(TFormula root){
+@Override 
+  public String writeQuantifierToString(TFormula root){ //they don't have brackets
 
               String prefix = new String();
               String scope = new String();
@@ -198,7 +223,8 @@ return
 
   }
 
-            public String writeTypedQuantifierToString(TFormula root){
+  @Override 
+public String writeTypedQuantifierToString(TFormula root){
                         String prefix = new String();
                         String scope = new String();
                         TFormula type = root.quantTypeForm();
@@ -230,7 +256,7 @@ return
                     }
 
 
-
+@Override 
   String writeListOfTermsToString(TFormula head) {
     String outPutStr = strNull, tempStr = strNull;
 
@@ -252,7 +278,8 @@ return
       outPutStr = "<terms>";
     return outPutStr;
   }
-
+  
+@Override 
   public String writePredicateToString(TFormula predicate) {
 
     if (isPredInfix(predicate.fInfo)) {

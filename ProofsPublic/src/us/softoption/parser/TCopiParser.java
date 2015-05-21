@@ -1,3 +1,19 @@
+/*
+Copyright (C) 2014 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 package us.softoption.parser;
 
 //11/29/11
@@ -41,6 +57,11 @@ or to the parser*/
  */	
 
 /*constants*/
+public static final String gCopiVariables="uvwxyz";   //NEED {take care if you change these as some procedures use}
+                                           //   their indices, e.g. TFormula.firstfreevar}
+
+
+ public static final char chCopiAnd = '.';// {for CopiLogic}
 
  public TCopiParser(){
  }
@@ -52,45 +73,18 @@ or to the parser*/
 
 
 
-//static final String gCopiConstants="abcdefghijklmnopqrst012";
-//static final String gFunctors="abcdefghijklmnopqrstuvwxyz012";
-                                         /*zero-order functors a..l are constants, m..z are variables
-                                         the binary predefineds like + are treated as special cases
-                                         and there are the numerals 0,1,2; conceptually gFunctors is a
-                                         set of char*/
-
-public static final String gCopiVariables="uvwxyz";   //NEED {take care if you change these as some procedures use}
-                                           //   their indices, e.g. TFormula.firstfreevar}
- //public static final String gPredicates="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-
-/*
-        gCopiConstants: set of 'a'..'t'; {for Copi}
-      gCopiFunctors: set of 'a'..'z';   {zero-order functors a..t are constants, u..z are variables}
-      gCopiTerms: set of 'a'..'z';
-      gCopiVariables: set of 'u'..'z'; {take care if you change these as some procedures use}
-    {                                                their indices, e.g. firstfreevar}
-      gCopiPredicates: set of 'A'..'Z';
-
-
-  */
-
- public static final char chCopiAnd = '.';// {for CopiLogic}
-
-// public static final String gCopiConnectives=""+chCopiAnd+chNeg+chOr+chExiquant+chImplic+chEquiv;
-
-
+@Override
 public String renderAnd(){
    return
        String.valueOf(chCopiAnd);
          }
-
+@Override
 public String renderUniquant(){
 	   return
 	       "";
 	         }
 
-
+@Override
 public String translateConnective(String connective){
 
   if (connective.equals(String.valueOf(chAnd)))
@@ -102,128 +96,6 @@ public String translateConnective(String connective){
  return
      super.translateConnective(connective);
 }
-
-
-
-
-/******** overrides *****/
-
-/*
-
-//public static boolean isCopiConnective (char ch){
-public /*static boolean isConnective (char ch){
-           return
-               ((gCopiConnectives.indexOf((int)ch)!=-1));
-        }
-
- public static boolean isVariable (char ch)
-         {
-         return  ((gCopiVariables.indexOf((int)ch)!=-1));
-         }
-*/
-
-/******************************** Infix multiplication versus infix And ***********************/
-
-/* In Copi Ab.C is conjunct and Ab.c is a statement ie the '.' can be an and or can be an infix multiply  
- * When scanning this, it can only be a problem if we are reading a term, in particular infix multiply
- * So we will override the super to test whether a term follows*/	
-
-//protected boolean infix2(TFormula root) {   
-	// <termprimary> . <termsecondary>
-	// <termprimary> XProd <termsecondary>   //from set theory
-	
-	/* what this is going to read is a . b
-and we have already read a as root.  So, we will read b. Then create a x node
-and make that the root and put a and b in its termlist*/
-	
-	/*we come in here with a well formed term, say 1. What this needs to do is to
-	 * swallow any multiplication sign returning WELLFORMED if there is none
-	 * So, we enter with, say, 1.2<next> and leave
-	 * with fChrrCh looking at <next>
-	 */	
-/*	
-boolean wellFormed=true;
-
-if (infixBinFun2(fCurrCh)){
-   TFormula newRoot = new TFormula(TFormula.functor,
-                   String.valueOf(fCurrCh),  //probably mult symbol
-                   null,
-                   null);
-
-
-   	if (fCurrCh=='.'){    // could be multiply or could be and
-	   
-   
-   		TermTest isTerm = new TermTest();
-   		boolean skipCurrent=true;
-   
-   		if (isTerm.testIt(skipCurrent)) {  //it is a term (a period b)
-   		   skip(1); /*the mult
-
-   		   TFormula rightTerm=new TFormula();
-
-   		   wellFormed=termSecondary(rightTerm);
-
-   		   if (wellFormed){
-   		      TFormula  leftTerm = new TFormula(root.getKind(),
-   		                                     root.getInfo(),
-   		                                     root.getLLink(),
-   		                                     root.getRLink());
-   		      newRoot.appendToFormulaList(leftTerm);
-   		      newRoot.appendToFormulaList(rightTerm);
-
-   		      root.assignFieldsToMe(newRoot);   //surgery
-   		      
-   		      return
-   		      	WELLFORMED;
-	   
-   		   }
-   		}
-   		else{                  // not period followed by term, hence well formed as is no advance of currentCh
-   		 return               // something else will see if it is an and
-	      	WELLFORMED;
-   		}
-
-   		} // end of currCh==period
-   	
-   		if (infixBinFun2(fCurrCh)){   // all the other cases of infix binary except '.'
-   			                          // we have already tested for this-- just for clarity in the coee
-   			newRoot = new TFormula(TFormula.functor,
-   	                   String.valueOf(fCurrCh),  //probably mult symbol
-   	                   null,
-   	                   null);
-
-
-   			skip(1); /*the mult etc 
-
-   			TFormula rightTerm=new TFormula();
-
-   			wellFormed=termSecondary(rightTerm);
-
-   			if (wellFormed){
-   				TFormula  leftTerm = new TFormula(root.getKind(),
-   	                                     root.getInfo(),
-   	                                     root.getLLink(),
-   	                                     root.getRLink());
-   				newRoot.appendToFormulaList(leftTerm);
-   				newRoot.appendToFormulaList(rightTerm);
-
-   				root.assignFieldsToMe(newRoot);   //surgery
-   			 return
-		      	WELLFORMED;
-   			}
-   		}	// all the other cases of infix binary except '.'
-   	 	
-   	
-}
-
-return
-    wellFormed;   //this could be true, if nothing is triggered. But it could also be false if there
-                  // is something wrong with the right hand term.
-} */
-
-/******************************** End of Infix multiplication versus infix And ***********************/
-
 
 
 }

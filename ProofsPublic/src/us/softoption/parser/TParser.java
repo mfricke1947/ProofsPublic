@@ -1,3 +1,20 @@
+/*
+Copyright (C) 2014 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+
 package us.softoption.parser;
 
 
@@ -123,6 +140,16 @@ import java.util.TreeSet;
 import us.softoption.infrastructure.TConstants;
 import us.softoption.infrastructure.TUtilities;
 
+/* We have, I think, four basic parsers here. There was the original recursive descent
+parser (and a separate one for the lambda calculus). Then the original system
+was moved to an automatic parser generator and two parsers were generated:CCParserOne and
+CCParserTwo.  Wherever 'CC' is to be found, it is a generated parser.
+*/
+
+/*The recursive descent parser is seen here, but the subclasses of this (i.e. of TParser)
+implement the parser generated parsers
+*/
+
 /*We want several different parsers of similar structure; we define generic procedures
 which are called in the normal way.  Most documents and windows have fParser fields to
 ensure the correct reading and writing.*/
@@ -132,7 +159,10 @@ ensure the correct reading and writing.*/
 but Javas regular expression powers allow this to be done to the input before it ever gets to skip
 or to the parser*/
 
-/*When reading in, we will usually accept any of the alternative versions of, say, the not symbol
+/*we have only one internal 'canonical' form for each connective but translate
+back and forth when reading or writing*/
+
+/*When reading in, we will usually accept any of the alternative versions of, say, the 'not' symbol
 but when writing back we will use the appropriate one*/
 
 /*for the symbols we 'import static' from Symbols*/
@@ -175,6 +205,8 @@ We will now smush these together (hopefully)
 /*Note: U is a predicate, and U is also the universe set. So UU is a wff, and so too is PU etc.
  * 
  * This is not ideal, but it should not occur all that often.
+
+Revised 2012 U as the universe set did not work very well, so replaced by the German U-umlaut
  */
 
 /*  This will also parse formulas with alternative logical symbols eg & for ^
@@ -184,32 +216,8 @@ We will now smush these together (hopefully)
 
 public class TParser{
 
-/*
-
-/******** end of  infix predicates **************
-
-public static final String defaultFilter="[" + chBlank+"]"; // this is a regular expression for use in filtering input with replaceAll
 
 
-public static final String lispFilterOut="[" + strCR+"]";   // changes a return to a blank which is a separator
-public static final String lispFilterIn="[" + chBlank+"]";
-
-*/
-/* These formula types are 'import static' from TFormula
-
-public static final short binary=1;
-public static final short kons=2;
-public static final short equality=3;
-public static final short functor=4;
-public static final short predicator=5;
-public static final short quantifier=6;
-public static final short unary=7;
-public static final short variable=8;
-public static final short typedQuantifier=9;
-public static final short application=10;
-public static final short lambda=11;
-//public static final short bracketted=100;  // to get right association and for writing back
-                                         // we add to other type  */
                                           
 static final char EOF = (char)-1;
 static final String CR = "\n";  // need to change this for cross platform
@@ -537,28 +545,28 @@ public String getInputPalette(boolean lambda,boolean modal,
 //		chTherefore+
 		
 		(lambda?       //covered by parameters passed in
-			chDoubleArrow:chTherefore )+
+			chDoubleArrow:chTherefore )+   // we don't want therefore with lambda
 
 		
-		(/*TPreferences.fL*/lambda?       //covered by parameters passed in
-				(renderLambda()):"" )+
+		(lambda?       //covered by parameters passed in
+			(renderLambda()):"" )+
 		
-		(/*TPreferences.fM*/modal?
-				(renderModalPossible()+
-				renderModalNecessary()+
-				renderModalKappa()+
-				renderModalRho()
+		(modal?
+			(renderModalPossible()+
+			renderModalNecessary()+
+			renderModalKappa()+
+			renderModalRho()
 				):"" )+
 		
-		(/*TPreferences.fS*/setTheory?
-		(renderMemberOf()+
-		renderNotMemberOf()+
-		renderUnion()+
-		renderIntersection()+
-		renderPowerSet()+
-		renderSubset()+
-		renderEmptySet()+
-		renderUniverseSet()):"" );
+		(setTheory?
+                        (renderMemberOf()+
+                        renderNotMemberOf()+
+                        renderUnion()+
+                        renderIntersection()+
+                        renderPowerSet()+
+                        renderSubset()+
+                        renderEmptySet()+
+                        renderUniverseSet()):"" );
 	
 }
 	
@@ -611,10 +619,6 @@ public static boolean freeInterpretFreeVariables(ArrayList interpretation){
     
     for (Iterator i=universeStrSet.iterator();i.hasNext();)
     	universe+=i.next();    
-    
-    
-    
-    
     
     char searchCh;
     char constant;
@@ -807,12 +811,6 @@ if (isMemberOfCh(connective))         //accepts variations
 public static int  typeOfFormula(TFormula aFormula){
 
          int  returnType=unknown;
-
-
-  /*       if (aFormula==null)
-           return
-               unknown; */
-
 
          switch (aFormula.fKind){
 
@@ -1152,14 +1150,7 @@ if (isTypedUniquant(root)) {  // (All m:t)p :: (All m)(Tm implic p)
               newRoot;	     	   
        }
        
-       
- //mfmfmf     
-       
-       
-       
-       
-       
-       
+      
        type=root.quantType();
 
        if (type!=chBlank){
@@ -1476,7 +1467,7 @@ return
 
 
 
-              public boolean isFunctor(TFormula root){
+public boolean isFunctor(TFormula root){
 
 
                                 if (root.fKind==functor)
@@ -1696,7 +1687,77 @@ public static boolean isXProd(TFormula root){
           false;
   }
 
+public static boolean isFunctor (char ch)
+      {
+      return  ((gFunctors.indexOf((int)ch)!=-1));
+      }
 
+public static boolean isPowerSet (char ch)
+{
+return  (ch==chPowerSet);
+}
+
+public static boolean isSetTheoryConstant (char ch)
+	{
+	return  ((gSetTheoryConstants.indexOf((int)ch)!=-1));
+	}
+
+public static boolean isLambdaName (char ch)
+              {
+              return  ((gLambdaNames.indexOf((int)ch)!=-1));
+      }
+
+
+public static boolean isLambdaConstant (char ch)
+      {
+                      return  ((gLambdaConstant.indexOf((int)ch)!=-1));
+      }
+
+
+
+public static boolean isPredicate (char ch)
+      {
+      return  ((gPredicates.indexOf((int)ch)!=-1));
+      }
+
+public static boolean isTopBottomPredicate (char ch)
+{
+return  ((topBottomPredicate.indexOf((int)ch)!=-1));
+}
+
+public static boolean isVariable (char ch)
+      {
+      return  ((fVariables.indexOf((int)ch)!=-1));
+      }
+
+public static boolean isVariable (TFormula root)
+ {
+ if (root.fKind==variable)
+                  return
+                      true;
+                else
+                  return
+                      false;
+      }
+
+boolean isPredInfix (String inf)
+      {
+      return (inf.equals(strEquals) ||
+              inf.equals(strMemberOf) ||  //we'll permit these in the standard logic
+              isMemberOfStr(inf) ||  //we'll permit these in the standard logic
+              inf.equals(strNotMemberOf) ||  //we'll permit these in the standard logic
+              inf.equals(strSubsetOf) ||  //we'll permit these in the standard logic
+              inf.equals(strLessThan)||
+              inf.equals(strGreaterThan));
+      }
+
+boolean isPredInfixSetTheory (String inf)
+{
+return (inf.equals(strMemberOf) ||  //we'll permit these in the standard logic
+		isMemberOfStr(inf) ||  //we'll permit these in the standard logic
+		inf.equals(strNotMemberOf) ||  //we'll permit these in the standard logic
+        inf.equals(strSubsetOf));
+}
 
 
 boolean functorInfix (String inf)
@@ -2076,47 +2137,7 @@ public static Set <String> variablesInFormula(TFormula aFormula){  /*has JUnit T
 	      s;
 	}
 
- /*  public static String [] variablesInFormula(TFormula aFormula){  /*has JUnit Test 
-	  String leftStr=strNull;
-	  String rightStr=strNull;
-
-
-	  if (aFormula.isSpecialPredefined())
-	    return
-	        strNull;
-
-	   if (aFormula.getLLink()!=null)
-		     leftStr= variablesInFormula(aFormula.getLLink());
-	   if (aFormula.getRLink()!=null)
-		     rightStr= variablesInFormula(aFormula.getRLink());
-
-	   if ((aFormula.getLLink()==null)&&(aFormula.getRLink()==null)){
-
-	     if (aFormula.getInfo().length()>0){
-
-	       if (isVariable(aFormula.getInfo().charAt(0)))
-	          leftStr = aFormula.getInfo();
-	          //not sure of the next bit because isn't the length 1?
-
-	     // I'M LEAVING IT OUT FOR NOW
-
-	     }
-	   }
-
-	  if ((leftStr.length()>0)&&(rightStr.length()>0)){  //remove duplicates
-	    for (int i = 0; i < rightStr.length(); i++)
-	      if (leftStr.indexOf(rightStr.charAt(i))==-1) //not there yet
-	        leftStr=leftStr+rightStr.charAt(i);
-
-	    return
-	        leftStr;
-
-	  }
-
-	return
-	      leftStr+rightStr;
-
-	} */
+ 
 
 	public static String lambdaNamesInFormula(TFormula aFormula){  /*has JUnit Test*/
 		  String leftStr=strNull;
@@ -2199,6 +2220,8 @@ public static Set <String> variablesInFormula(TFormula aFormula){  /*has JUnit T
 
 
 /***********************************************************************/
+         
+/****************************Supplying some new stuff*******************************************/
 
 
 public static TFormula newConstant(ArrayList formulas, ArrayList more){
@@ -2283,21 +2306,6 @@ public static String nthNewVariable(int n,Set<String> notInHere){
 	}
 
 
-/*public static char nthNewVariable(int n,String notInHere){
- char searchCh;
- for (int i=0;i<gVariables.length();i++){
-   searchCh=gVariables.charAt(i);
-   if (notInHere.indexOf(searchCh)==-1){
-     if (n==1)
-        return
-          searchCh;
-     else
-        n-=1;
-   }
- }
-  return
-      ' ';
-} */
 
 
 /********************** some lambda routines *********************************/
@@ -2460,82 +2468,6 @@ return
 /************/
 
 
-
-
-
-public static boolean isFunctor (char ch)
-      {
-      return  ((gFunctors.indexOf((int)ch)!=-1));
-      }
-
-public static boolean isPowerSet (char ch)
-{
-return  (ch==chPowerSet);
-}
-
-public static boolean isSetTheoryConstant (char ch)
-	{
-	return  ((gSetTheoryConstants.indexOf((int)ch)!=-1));
-	}
-
-public static boolean isLambdaName (char ch)
-              {
-              return  ((gLambdaNames.indexOf((int)ch)!=-1));
-      }
-
-
-public static boolean isLambdaConstant (char ch)
-      {
-                      return  ((gLambdaConstant.indexOf((int)ch)!=-1));
-      }
-
-
-
-public static boolean isPredicate (char ch)
-      {
-      return  ((gPredicates.indexOf((int)ch)!=-1));
-      }
-
-public static boolean isTopBottomPredicate (char ch)
-{
-return  ((topBottomPredicate.indexOf((int)ch)!=-1));
-}
-
-public static boolean isVariable (char ch)
-      {
-      return  ((fVariables.indexOf((int)ch)!=-1));
-      }
-
-public static boolean isVariable (TFormula root)
- {
- if (root.fKind==variable)
-                  return
-                      true;
-                else
-                  return
-                      false;
-      }
-
-boolean isPredInfix (String inf)
-      {
-      return (inf.equals(strEquals) ||
-              inf.equals(strMemberOf) ||  //we'll permit these in the standard logic
-              isMemberOfStr(inf) ||  //we'll permit these in the standard logic
-              inf.equals(strNotMemberOf) ||  //we'll permit these in the standard logic
-              inf.equals(strSubsetOf) ||  //we'll permit these in the standard logic
-              inf.equals(strLessThan)||
-              inf.equals(strGreaterThan));
-      }
-
-boolean isPredInfixSetTheory (String inf)
-{
-return (inf.equals(strMemberOf) ||  //we'll permit these in the standard logic
-		isMemberOfStr(inf) ||  //we'll permit these in the standard logic
-		inf.equals(strNotMemberOf) ||  //we'll permit these in the standard logic
-        inf.equals(strSubsetOf));
-}
-
-
 /*********************** Accessors ************************************************/
 
 public String getErrorString(){
@@ -2547,6 +2479,13 @@ fParserErrorMessage = new StringWriter();
       }
 
 /*********************** Parser core, recursive descent **********************************************/
+
+/* We have, I think, four basic parsers here. There was the original recursive descent
+parser (and a separate one for the lambda calculus). Then the original system
+was moved to an automatic parser generator and two parsers were generated:CCParserOne and
+CCParserTwo
+*/
+
 
 boolean predicate(TFormula root){ /* predicate P<term1> <term2>... 
                                      (x<y) what about equals*/   /*Seems OK June25 03*/
@@ -2841,10 +2780,6 @@ private boolean termPrimary (TFormula root) {
           }
         }
  
-
- 
- 
- 
  
 //instead trying for <functor>|<functor(<nonempty termlist>
 
@@ -2903,9 +2838,6 @@ private boolean termPrimary (TFormula root) {
      }
 
 
-
-
-
 protected boolean termSecondary (TFormula root){
 //{<termsecondary>::= <termprimary><nonempty list of '''>|<termprimary> . <termsecondary>| <termprimary>}
  return
@@ -2952,69 +2884,6 @@ private boolean termSetTheory (TFormula root){
 {<termprimary>::={}|{termlist}|{var: scope}|{var| scope} }
 {<termsecondary>::= <termprimary><nonempty list of '''>|<termprimary> intersect <termsecondary>| <termprimary>}
 {<termtertiary>::= <termsecondary> union <termtertiary>| <termsecondary>}
-
-
-return
- termSetTheoryTertiary(root);
- } 
-
-private boolean termSetTheoryPrimary (TFormula root) {
-
-	//{<termprimary>::=(<term>)|<functor>|<setTheory constant eg empty set> }
-	
-	if (fCurrCh == '{')
-		return
-		termSetTheoryPrimaryComprehension(root);
-		
-
-
-	 if (fCurrCh == '('){          // we are starting with a left bracket--next has to be a term
-	     // now trying for (term)
-	    skip(1); //the bracket
-	          if (!termSetTheory(root)) { //  not well formed
-	            return
-	                ILLFORMED;
-	          }
-	          else { // now want the right bracket
-
-	            if (fCurrCh != ')') { // the matching right bracket
-	              writeError(CR + "( * The character '" + fCurrCh +
-	                         "' should be a ). *)");
-	              return
-	                  ILLFORMED;
-	            }
-	            else {
-	              skip(1); // the bracket
-	              return
-	                  WELLFORMED;
-	            }
-
-	          }
-	        }
-
-
-	//instead trying for <functor>
-
-	       if (isFunctor(fCurrCh)||
-	    	   isSetTheoryConstant(fCurrCh)  ) /* tests whether functor
-	           {
-	         root.fInfo = String.valueOf(fCurrCh);
-
-	         if (isVariable(fCurrCh)) /* tests whether a variable
-	           root.fKind = variable; /*some zero order functors are variables
-	         else
-	           root.fKind = functor;
-
-	         skip(1); /*looking at next item
-
-	       }
-	       else {
-	         writeError("(*The character '" + fCurrCh + "' should be a functor.*)");
-	         return ILLFORMED;
-	       }
-	       return WELLFORMED;
-	     }
-
 */
 
 boolean assembleComprehension(TFormula root,TFormula variable){
@@ -3107,7 +2976,6 @@ private boolean termComprehension (TFormula root) {
 	 *                 {var: scope}|
 	 *                 {var| scope} }*/
 	
-	//System.out.print("Hello");
 	
 	if (fCurrCh == '{'){    
 		
@@ -3119,25 +2987,6 @@ private boolean termComprehension (TFormula root) {
 		return
 		   comprehensionInner(root);
 
-	/*	    if (fCurrCh != '}') { // the matching right bracket
-		              writeError(CR + "( * The character '" + fCurrCh +
-		                         "' should be a }. *)");
-		              
-		             // System.out.print("Two");
-		              return
-		                  ILLFORMED;
-		    }
-		    else{
-		    	
-		    	root.fKind=comprehension;
-		    	root.fInfo=strEmptySet;
-		    	
-		    	//System.out.print("Three");
-		    	
-		    	skip(1); //the bracket
-		    	
-		    	return WELLFORMED;
-		    } */
 
 	}
 	
@@ -3252,19 +3101,10 @@ private boolean termFirstOrder (TFormula root){
 {<termtertiary>::= <termsecondary> union <termtertiary>| <termsecondary>}
 
 
-Pascal {$S GentzenFormula}
-procedure TParser.Term (var root: TFormula; var illformed: BOOLEAN);
-
-begin
-
-TermTertiary(root, illformed);
-end;
-
-
       */
 
 
-
+/*Notice now using a CCParser, which is a generated one */
 
 public boolean term (TFormula root, Reader aReader){    // sometimes called externally to parse term
 	TFormula cCroot;
@@ -3291,16 +3131,7 @@ else{
 	return
 		WELLFORMED;
 }
-	
-/*	
-	
-	fInput=aReader;
-  // skip(1);
- initializeInputBuffer();
 
-
-   return
-       term (root); */
    }
 
 
@@ -3362,13 +3193,6 @@ return
                 return ILLFORMED;
               }
 
-           /*   while (fCurrCh != chSmallRightBracket) {
-                subterm = new TFormula();
-                if (this.term(subterm))
-                  root.appendToFormulaList(subterm);
-                else
-                  return ILLFORMED;
-              }  */
 
               if (termList(root))
                 ;       /*continue*/
@@ -3385,16 +3209,6 @@ return
           return WELLFORMED;
         }
       }
-
-/* termFirstOrder should go
-
-     begin
-
-TermTertiary(root, illformed);
-end;
-
-*/
-
 
 
 
@@ -4136,6 +3950,9 @@ private boolean wffCheck (TFormula root, ArrayList newValuation){
             lambdaWffCheck (root,newValuation);
    }
 
+   
+   /*Notice now using automatic CCParser which is explained and created in a different file*/
+   
    public boolean wffCheck (TFormula root, Reader aReader){
 	   TFormula cCroot;
 
@@ -4212,15 +4029,7 @@ else{
 	return
 		WELLFORMED;
 }
-/*	
-	initializeErrorString();   //new Dec07
-   fInput=aReader;
 
-   initializeInputBuffer();
-   //skip(1);  // I think you need this to initialize lookaheads
-
-   return
-       wffCheck (root,newValuation);  */
    }
 
 
@@ -5555,118 +5364,7 @@ return
 
 
 }
-/****************** OLD ******************************/
 
-/*
-private boolean termSetTheorySecondary (TFormula root){
-	//{<termsecondary>::= <termprimary><nonempty list of '''>|<termprimary> . <termsecondary>| <termprimary>}
-	 return
-	     termSetTheoryPrimary(root)&&
-	     postfixSuccessor(root)&&
-	     infix2SetTheory(root);
-	}
-
-private boolean termSetTheoryTertiary (TFormula root){
-	//{<termtertiary>::= <termsecondary> + <termtertiary>| <termsecondary>}
-
-	 return
-	     termSetTheorySecondary(root)&&
-	     infix3SetTheory(root);
-	     } */
-
-/*private boolean term4Tertiary (TFormula root){
-	//{<term4ary>::= <termtertiary> intersect <term4ary>| <termtertiary>}
-
-	 return
-	     termSetTheorySecondary(root)&&
-	     infix3SetTheory(root);
-	     } */
-
-
-/*
-private boolean infix2SetTheory(TFormula root) {   
-	// <termprimary> . <termsecondary>
-	
-	/* what this is going to read is a x b
-and we have already read a as root.  So, we will read b. Then create a x node
-and make that the root and put a and b in its termlist*/
-	
-	/*we come in here with a well formed term, say 1. What this needs to do is to
-	 * swallow any multiplication sign returning WELLFORMED if there is none
-	 * So, we enter with, say, 1.2<next> and leave
-	 * with fChrrCh looking at <next>
-	 */	
-/*	
-boolean wellFormed=true;
-
-if (infixBinFun2SetTheory(fCurrCh)){
-   TFormula newRoot = new TFormula(TFormula.functor,
-                   String.valueOf(fCurrCh),  //probably mult symbol
-                   null,
-                   null);
-
-
-   skip(1); /*the mult
-
-   TFormula rightTerm=new TFormula();
-
-   wellFormed=termSetTheorySecondary(rightTerm);
-
-   if (wellFormed){
-      TFormula  leftTerm = new TFormula(root.getKind(),
-                                     root.getInfo(),
-                                     root.getLLink(),
-                                     root.getRLink());
-      newRoot.appendToFormulaList(leftTerm);
-      newRoot.appendToFormulaList(rightTerm);
-
-      root.assignFieldsToMe(newRoot);   //surgery
-   }
-}
-
-return
-    wellFormed;
-}
- */
-
-/*
-private boolean infix3SetTheory(TFormula root) {   /* what this is going to read is a + b
-    and we have already read a as root.  So, we will read b. Then create a + node
-    and make that the root and put a and b in its termlist
-	
-	//<termsecondary> union <termtertiary>
-   boolean wellFormed=true;
-
-   if (infixBinFun3SetTheory(fCurrCh)){
-     TFormula newRoot;
-
-     newRoot = new TFormula(TFormula.functor,
-                        String.valueOf(fCurrCh),  //probably add symbol
-                        null,
-                        null);
-
-
-     skip(1); /*the union
-
-     TFormula rightTerm=new TFormula();
-
-     wellFormed=termSetTheoryTertiary(rightTerm);
-
-     if (wellFormed){
-        TFormula  leftTerm = new TFormula(root.getKind(),
-                                          root.getInfo(),
-                                          root.getLLink(),
-                                          root.getRLink());
-        newRoot.appendToFormulaList(leftTerm);
-        newRoot.appendToFormulaList(rightTerm);
-
-        root.assignFieldsToMe(newRoot);   //surgery
-     }
-   }
-
-   return
-         wellFormed;
-} */
 
 
 

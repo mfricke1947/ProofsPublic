@@ -1,3 +1,19 @@
+/*
+Copyright (C) 2014 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 package us.softoption.parser;
 
 
@@ -509,22 +525,9 @@ public static Set <String> atomicTermsInListOfFormulas(ArrayList listOfFormulas 
 
 	     while (iter.hasNext()) {
 	       s.addAll(( (TFormula) iter.next()).atomicTermsInFormula());
-	   //    outputStr = outputStr + ( (TFormula) iter.next()).atomicTermsInFormula();
 
 	     }
 
-/*	     if (outputStr.length()>1){
-
-	       outputStr = TUtilities.removeDuplicateChars(outputStr);
-
-	       if (outputStr.length()>1){
-	         char[] forSort = outputStr.toCharArray();
-
-	         Arrays.sort(forSort);
-
-	         outputStr = new String(forSort);
-	       }
-	     } */
 
 	   }
 
@@ -532,41 +535,6 @@ public static Set <String> atomicTermsInListOfFormulas(ArrayList listOfFormulas 
 	       s;
 	}	
 	
-
-	/*	public static String atomicTermsInListOfFormulas(ArrayList listOfFormulas ){ // returns empty string not null for none
-			String outputStr="";
-
-
-		   if (listOfFormulas != null) {
-		     Iterator iter = listOfFormulas.iterator();
-
-		     while (iter.hasNext()) {
-		       outputStr = outputStr + ( (TFormula) iter.next()).atomicTermsInFormula();
-
-		     }
-
-		     if (outputStr.length()>1){
-
-		       outputStr = TUtilities.removeDuplicateChars(outputStr);
-
-		       if (outputStr.length()>1){
-		         char[] forSort = outputStr.toCharArray();
-
-		         Arrays.sort(forSort);
-
-		         outputStr = new String(forSort);
-		       }
-		     }
-
-		   }
-
-
-
-		   return
-		       outputStr;
-
-		}
-*/
 
 		 /* the next is a helper for the semantics*/
 
@@ -767,33 +735,7 @@ public static   boolean isEquality(TFormula root){
 /************************** Standard methods  ****************************/
 
 
-/*
-public static Set <String> variablesInFormula(TFormula aFormula){  
-	Set<String> s = new TreeSet<String>();
-	
-	String leftStr=strNull;
-	  String rightStr=strNull;
 
-
-	  if ((aFormula.fKind!=variable)||(aFormula.isSpecialPredefined()))
-	    return
-	        s;
-
-	   if (aFormula.getLLink()!=null)
-		   if (s.addAll(variablesInFormula(aFormula.getLLink())))
-			   ;
-	   if (aFormula.getRLink()!=null)
-		   if (s.addAll(variablesInFormula(aFormula.getRLink())))
-			   ;
-
-	   if ((aFormula.fKind!=variable))
-	     if (aFormula.getInfo().length()>0)
-	    	 if (s.add(aFormula.getInfo()))
-	    		 ;
-	return
-	      s;
-	}
- */
 
 public Set <String> atomicTermsInFormula(){   // returns empty string not null for none
 	Set<String> s = new TreeSet<String>();
@@ -848,71 +790,7 @@ public Set <String> atomicTermsInFormula(){   // returns empty string not null f
       s;
 }
 
-/*
-public String atomicTermsInFormula(){   // returns empty string not null for none
-    String returnStr="";
-    int degree= arity();
 
-    if (!isSpecialPredefined()){
-          switch (fKind){
-            case functor:
-              if (degree==0)
-                returnStr= fInfo;
-
-               break; // no compound terms
-            case variable:
-               returnStr= fInfo;
-               break;
-
-
-             case predicator:
-             case equality:
-
-                if (degree>0) {
-
-                   for(int i=1;i<=degree;i++){
-                      returnStr=returnStr+nthTopLevelTerm(i).atomicTermsInFormula();
-                   }
-
-                   returnStr=TUtilities.removeDuplicateChars(returnStr);
-                 }
-                break;
-
-              case unary:
-                 returnStr=fRLink.atomicTermsInFormula();
-
-                break;
-
-
-              case binary:
-
-                returnStr=fLLink.atomicTermsInFormula()+fRLink.atomicTermsInFormula();
-
-                returnStr=TUtilities.removeDuplicateChars(returnStr);
-
-                break;
-
-              case quantifier:
-              case typedQuantifier:
-
-                returnStr=quantVarForm().atomicTermsInFormula() + scope().atomicTermsInFormula();
-
-                returnStr=TUtilities.removeDuplicateChars(returnStr);
-
-
-                break;
-
-
-            default: ;
-          }
-
-       };
-
-
-   return
-      returnStr;
-}
-*/
 
 
 public String freeAtomicTermsInFormula(){   // returns empty string not null for none
@@ -1140,9 +1018,6 @@ public TFormula closedTermsInFormula(){    //returns a list of terms  CHECK THIS
   return
      head;
   }
-
-
-
 
 
 /********* Formula Accessors***************************/
@@ -1523,21 +1398,7 @@ public TFormula lambdaVarForm(){
 }
 
 //mf Dec 09, the variables can be strings with subscripts eg x12 so chars won't cut it
- /* public char quantVar(){
-  if ((fKind==quantifier)&&(fLLink!=null))
-    return
-        fLLink.fInfo.charAt(0);
-  else
-  if (fKind==typedQuantifier){
-    TFormula var=quantVarForm();
-    if (var!=null)
-    return
-        var.fInfo.charAt(0);
-  }
 
-    return
-    chBlank;
-} */
 
 public String quantVar(){
 	  if ((fKind==quantifier)&&(fLLink!=null))
@@ -1565,10 +1426,6 @@ public TFormula scope(){  //both quantifers and lambdas use this so don't check 
 
 
 /**********************Boolean methods*********************************/
-
-
-
-
 
 
 public char propositionName(){
@@ -1751,13 +1608,6 @@ switch (fKind){
 }
 
 
-
-
-
-
-
-
-
 public int arity(){
   int total =0;
   TFormula temp;
@@ -1862,14 +1712,6 @@ public ArrayList allSubFormulasWhichAreNegations() //wow, what a title! RETURN A
 return
    returnList;
 }
-
-
-
-
-
-
-
-
 
 
 public void appendToFormulaList(TFormula item)  // AddItemOnEnd (var head: TFormula; item: TFormula);
@@ -2003,17 +1845,11 @@ int degree;
      true;
 }
 
-
-
-
-
-  
+ 
 
 /********************  List Processing ********************************************/
 
 //NOTICE THAT THIS NEW ROUTINE HAS A HEAD ON THE FRONT
-
-
 
 
 void append(TFormula item){  //oldname addItemOnEnd
@@ -2127,11 +1963,6 @@ if (aList!=null){
       }
     }
 
-
-
-
-
-
   }
 
 
@@ -2173,13 +2004,6 @@ if (aList!=null){
          second=(TFormula)aList.get(j);
 
          if (TFormula.formulasContradict(first,second))
-
-
-             /*(((first.fKind==TFormula.unary)
-             && first.fRLink.equalFormulas(first.fRLink,second))
-             ||
-            ((second.fKind==TFormula.unary)
-             && second.fRLink.equalFormulas(first.fRLink,first)))*/
 
             found=true;
 
@@ -2267,6 +2091,9 @@ static public boolean subset(ArrayList subset,ArrayList superset){
 
 /********************** Writing routines, with surgery *********************************/
 
+/*Sometimes we need to run through a formula and put a marker in, for example to put
+'<' in to mark the first 'a' in Faa, like this Fa<a. These routines do this
+*/
 
 
 public class MarkerData{
@@ -2304,11 +2131,6 @@ public class MarkerData{
   fCurrentCopyNode=currentCopyNode;
 
  }
-
-
-
-
-
 
 }
 
@@ -2393,14 +2215,6 @@ public  void newInsertMarker(MarkerData data){
 
 
 }
-
-
-
-
-
-
-
-
   
 
 public void interpretFreeVariables(ArrayList valuation){   // does surgery?
@@ -2435,8 +2249,6 @@ public void interpretFreeVariables(ArrayList valuation){   // does surgery?
 }
 
 
-
-
 //These are also defined in the parser!
 
      public boolean isAnd(TFormula root){    //should not be static because of different parsers
@@ -2463,12 +2275,6 @@ public boolean isImplic(TFormula root){
                     return
                         false;
                 }
-
-
-
-
-
-
 
 
 
@@ -2585,30 +2391,13 @@ public TFormula expandUnique(){
    return
        null;
  else{
-	 
-/*
-         variables = new TreeSet<String>();
-         if (variables.addAll(variablesInFormula(first)))
-        	 ;
-         if (variables.addAll(variablesInFormula(second)))
-        	 ;
-         
-         newVar=nthNewVariable(1, variables);
 
-         if (newVar.equals("")) 
- */
 	 
 	   Set <String> oldTerms=atomicTermsInFormula();
 	   String newVar =TParser.nthNewVariable(1,oldTerms);
 
 	   if (!newVar.equals("")) 
-	 
-	/* 
-   String oldTerms=atomicTermsInFormula();
-   char newVar =TParser.nthNewVariable(1,oldTerms);
 
-   if (newVar!=' ') */
-   
    {
 
      uvar=quantVarForm();
@@ -2662,283 +2451,7 @@ identity.appendToFormulaList(vvar.copyFormula());
 
 }    //END OF CLASS
 
-/*	
 
-public String variablesInFormula(){
- String leftStr=strNull;
- String rightStr=strNull;
-
-
- if (isSpecialPredefined())
-   return
-       strNull;
-
- if (fLLink!=null)
-   leftStr=fLLink.variablesInFormula();
-
- if (fRLink!=null)
-   rightStr=fRLink.variablesInFormula();
-
- if ((fLLink==null)&&(fRLink==null)){
-
-   if (fInfo.length()>0){
-
-     if (TParser.isVariable(fInfo.charAt(0)))
-        leftStr = fInfo;
-        //not sure of the next bit because isn't the length 1?
-
-   // I'M LEAVING IT OUT FOR NOW
-
-   }
- }
-
- if ((leftStr.length()>0)&&(rightStr.length()>0)){  //remove duplicates
-   for (int i = 0; i < rightStr.length(); i++)
-     if (leftStr.indexOf(rightStr.charAt(i))==-1) //not there yet
-       leftStr=leftStr+rightStr.charAt(i);
-
-   return
-       leftStr;
-
- }
-
-return
-     leftStr+rightStr;
-
-}
-
-*/
-
-/*
-public String lambdaNamesInFormula(){
- String leftStr=strNull;
- String rightStr=strNull;
-
-
- if (isSpecialPredefined())
-   return
-       strNull;
-
- if (fLLink!=null)
-   leftStr=fLLink.lambdaNamesInFormula();
-
- if (fRLink!=null)
-   rightStr=fRLink.lambdaNamesInFormula();
-
- if ((fLLink==null)&&(fRLink==null)){
-
-   if (fInfo.length()>0){
-
-     if (TParser.isLambdaName(fInfo.charAt(0)))
-        leftStr = fInfo;
-        //not sure of the next bit because isn't the length 1?
-
-   // I'M LEAVING IT OUT FOR NOW
-
-   }
- }
-
- if ((leftStr.length()>0)&&(rightStr.length()>0)){  //remove duplicates
-   for (int i = 0; i < rightStr.length(); i++)
-     if (leftStr.indexOf(rightStr.charAt(i))==-1) //not there yet
-       leftStr=leftStr+rightStr.charAt(i);
-
-   return
-       leftStr;
-
- }
-
-return
-     leftStr+rightStr;
-
-}
-
-*/
-
-/*
-public static String constantsInListOfFormulas(ArrayList listOfFormulas ){ // returns empty string not null for none
-
-   String outputStr="";
-
-
-   if (listOfFormulas != null) {
-     Iterator iter = listOfFormulas.iterator();
-
-     while (iter.hasNext()) {
-       outputStr = outputStr + ( (TFormula) iter.next()).constantsInFormula();
-
-     }
-
-     if (outputStr.length()>1){
-
-       outputStr = TUtilities.removeDuplicateChars(outputStr);
-
-       if (outputStr.length()>1){
-         char[] forSort = outputStr.toCharArray();
-
-         Arrays.sort(forSort);
-
-         outputStr = new String(forSort);
-       }
-     }
-
-   }
-
-   return
-       outputStr;
-}
-
-*/
-/*	
-public static boolean freeInterpretFreeVariables(ArrayList interpretation){
-
-   /*This will do surgery on a list of atomic formulas, say Fx, Gy and change the free varaibles
-   into arbitrary constants eg Fa, Gb */
-
-
-   /* What we have here is a consistent list of positive and negative atomic formulas,
-    which are true, we need
-      to pull out the atomic terms and make them the universe, then interpret the  predicates and relations
-  suitably
- But they may have free variables. Any new constant will do here*/
-
-/*	    String universe=TFormula.atomicTermsInListOfFormulas(interpretation);
-   char searchCh;
-   char constant;
-   ArrayList valuation=new ArrayList();
-   int n=1;
-   TFormula valuForm;
-
-   for (int i=0;i<universe.length();i++){
-
-     searchCh=universe.charAt(i);
-
-     if (TParser.isVariable(searchCh)){
-       constant=TParser.nthNewConstant(n,universe);
-       n+=1;
-       if (constant==' ')
-         return
-             false;
-       else{
-            valuForm=new TFormula((short)0,constant +"/" + searchCh,null,null);
-            /*the info on a valuation looks like this "a/x"
-               and we want to substitute the constant a for the variable
-               x throughout the formula*/
-/*		             valuation.add(valuForm);
-       }
-     }
-
-   }
-
-   if (valuation.size()>0)
-     TFormula.interpretFreeVariables(valuation, interpretation);  //surgery
-
-  return
-      true;
-}  */
-/*	
-public char firstFreeVar(){
- TFormula chForm= new TFormula();
- String gVariables=TParser.gVariables;
- boolean found=false;
- int i=0;
-
- chForm.fKind = variable;
-
- while ((!found)&&(i<gVariables.length())){
-   chForm.fInfo=gVariables.substring(i,i+1);
-
-   if (freeTest(chForm))
-     found=true;
-   else
-     i++;
- }
-
- if (found)
-   return
-     chForm.fInfo.charAt(0);
-  else
-
- return
-     chBlank;
-}
-
-*/
-/*
-public String constantsInFormula(){
-  String leftStr=strNull;
-  String rightStr=strNull;
-
-
-  if (isSpecialPredefined())
-    return
-        strNull;
-
-  if (fLLink!=null)
-    leftStr=fLLink.constantsInFormula();
-
-  if (fRLink!=null)
-    rightStr=fRLink.constantsInFormula();
-
-  if ((fLLink==null)&&(fRLink==null)){
-
-    if (fInfo.length()>0){
-
-      if (TParser.isConstant(fInfo.charAt(0)))
-         leftStr = fInfo;
-         //not sure of the next bit because isn't the length 1?
-
-    // I'M LEAVING IT OUT FOR NOW
-
-    }
-  }
-
-  if ((leftStr.length()>0)&&(rightStr.length()>0)){  //remove duplicates
-    for (int i = 0; i < rightStr.length(); i++)
-      if (leftStr.indexOf(rightStr.charAt(i))==-1) //not there yet
-        leftStr=leftStr+rightStr.charAt(i);
-
-    return
-        leftStr;
-
-  }
-
-return
-      leftStr+rightStr;
-
-}
-
-*/	
-
-/**** should be in Parser as depends on variables
-
-public char firstFreeVar(){
-  TFormula chForm= new TFormula();
-  String gVariables=TParser.gVariables;
-  boolean found=false;
-  int i=0;
-
-  chForm.fKind = variable;
-
-  while ((!found)&&(i<gVariables.length())){
-    chForm.fInfo=gVariables.substring(i,i+1);
-
-    if (freeTest(chForm))
-      found=true;
-    else
-      i++;
-  }
-
-  if (found)
-    return
-      chForm.fInfo.charAt(0);
-   else
-
-  return
-      chBlank;
-}
-
-*/
 
 	
 

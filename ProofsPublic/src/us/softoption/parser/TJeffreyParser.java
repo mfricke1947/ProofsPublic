@@ -1,3 +1,19 @@
+/*
+Copyright (C) 2014 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 package us.softoption.parser;
 
 //8/9/06
@@ -13,7 +29,7 @@ import static us.softoption.infrastructure.Symbols.chNotSign;
 import java.io.Reader;
 
 
-public class TJeffreyParser extends TPriestParser/*THowsonParser*/{
+public class TJeffreyParser extends TPriestParser{
 
   /*We want several different parsers of similar structure; we define generic procedures
    which are called in the normal way.  Most documents and windows have fParser fields to
@@ -46,29 +62,23 @@ public static byte JEFFREY= CCParser.BRACKETFREEQUANTS;
       }
 
 
-
+@Override
   public String renderNot() {
     return
         String.valueOf(chNotSign);
   }
 
-  /*
-  public String renderAnd() {
-	    return
-	        String.valueOf(chAnd2);
-	  }
-  */
-  
+ @Override 
   public String renderImplic() {
   return
       String.valueOf(chArrow);
 }
-
+@Override
 public String renderEquiv() {
 return
     String.valueOf(chHArr);
 }
-
+@Override
   public String translateConnective(String connective) {
 
 	  
@@ -84,91 +94,10 @@ return
     if (connective.equals(String.valueOf(chEquiv)))
   return
       String.valueOf(chHArr);
-/*
-    if (connective.equals(String.valueOf(chAnd)))
-    	  return
-    	      String.valueOf(chAnd2);
-*/
+
     return
         connective;
   }
-/*
-  boolean predicate(TFormula root){ /* predicate P<term1> <term2>... 
-      (x<y) what about equals*/   /*Seems OK June25 03
-	  
-/*Howson, the superclass, has P(<term1>, <term2>,...) we don't want that   
-
-TFormula subterm;
-
-if (isPredicate(fCurrCh))
-{
-root.fKind = predicator;
-root.fInfo=toInternalForm(fCurrCh);//String.valueOf(fCurrCh);
-
-skip(1);
-
-while (isFunctor(fCurrCh)||
-(fCurrCh == chSmallLeftBracket)||
-(fCurrCh == '<'))
-        /*a term can start with a bracket
-         * or be an ordered pair
-{
-subterm = new TFormula();
-if (term(subterm))
-root.appendToFormulaList(subterm);
-else
-return ILLFORMED;
-}
-return WELLFORMED;
-}
-else
-{
-writeError("(*The character '"+ fCurrCh+ "' should be a ( or a Predicate.*)");
-return ILLFORMED;
-}
-
-}
-  
-  public String writePredicateToString (TFormula predicate){
-
-	  if (isPredInfix(predicate.fInfo))
-	    {
-	    return
-	       (//chSmallLeftBracket+   //writeInner will put brackets round inner, don't need them on outer
-	       writeTermToString(predicate.firstTerm())+
-	       predicate.fInfo+
-	       writeTermToString(predicate.secondTerm()));//+
-	      // chSmallRightBracket);
-
-	    }
-
-	  else
-	        {
-	    return
-	    (
-	    predicate.fInfo+
-	    writeListOfTermsToString(predicate.fRLink));
-
-	    }
-	  }  
-  
-  String writeListOfTermsToString (TFormula head)
-  {String outPutStr=strNull, tempStr=strNull;
-
-  while ((head!=null) && (outPutStr.length() < 128))
-          {
-          tempStr= writeTermToString(head.fLLink);
-          if (tempStr.length() > 96)
-                       tempStr = "<term>";
-      outPutStr= outPutStr+tempStr;
-      head = head.fRLink;
-          }
-  if (outPutStr.length() > 127)
-             outPutStr = "<terms>";
-     return outPutStr;
-  } */
-  
-
 }
 
 
