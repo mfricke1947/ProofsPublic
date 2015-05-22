@@ -1,3 +1,19 @@
+/*
+Copyright (C) 2014 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 package us.softoption.proofs;
 
 import static us.softoption.infrastructure.Symbols.chLeftCurlyBracket;
@@ -47,9 +63,9 @@ public class TMyProofController extends TProofController{
 	
 	/*******************  Factory *************************/
 
-	TReAssemble supplyTReAssemble (TTestNode root){         // so we can subclass
+	TGWTReAssemble supplyTReAssemble (TTestNode root){         // so we can subclass
 	  return
-	      new TReAssemble(fParser, root, null, 0);
+	      new TGWTReAssemble(fParser, root, null, 0);
 	}
 
 
@@ -388,7 +404,7 @@ doDerive(!allLines);
 
   ArrayList createProofSegment(TTestNode root){
 
-  TReAssemble aReAssembly= supplyTReAssemble(root); //new TReAssemble(fParser,root,null,0);
+  TGWTReAssemble aReAssembly= supplyTReAssemble(root); //new TReAssemble(fParser,root,null,0);
 
     aReAssembly.reAssembleProof();
 
@@ -410,7 +426,7 @@ doDerive(!allLines);
 
     int dummy=0;
 
-    TMergeData mergeData=new TMergeData(fModel.getHead(),dummy,
+    TGWTMergeData mergeData=new TGWTMergeData(fModel.getHead(),dummy,
                                         tempHead,lastAssumption,dummy,dummy,
                                         aReAssembly.supplyProofline());
 

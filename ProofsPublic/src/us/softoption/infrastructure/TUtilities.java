@@ -1,3 +1,19 @@
+/*
+Copyright (C) 2014 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 package us.softoption.infrastructure;
 
 import static us.softoption.infrastructure.Symbols.strCR;
@@ -9,7 +25,7 @@ import java.util.ArrayList;
 
 // 11/1/08
 
-//some scrap at the bottom
+
 
 public class TUtilities{
 
@@ -227,14 +243,7 @@ static public String htmlEscToUnicodeFilter(String inputStr){
         
         outputStr=outputStr.replaceAll("&there4;",""+'\u2234'); // therefore
         
-        
-        
-        
-
-        
-        
-        
-        
+       
         return
             outputStr;
   }
@@ -275,80 +284,7 @@ return
      outputStr;
 }
 
-/*
-static  public String readSystemClipBoardToString(JTextComponent text, int filter){
-// we want text to be created by the caller so that it is of the right type to
-// extract what is wanted from the clipboard
- text.selectAll();    //any previous stuff?
- text.paste();        // rid of old in with new
- text.selectAll();    // all of new
- String input = text.getSelectedText();
- String outputStr=input;
 
-             if (input==null)
-                 return null;
-
-             switch (filter){
-               case noFilter:
-                 break;
-               case defaultFilter:
-                 outputStr=defaultFilter(input);
-                 break;
-               case logicFilter:
-                 outputStr=logicFilter(input);
-                 break;
-               case lispFilter:
-                 outputStr=lispFilter(input);
-                 break;
-
-
-               case peculiarFilter:
-                 outputStr=peculiarFilter(input);
-                 break;
-
-               default:;
-             }
-
-             return
-                 outputStr;
-           }
-
-
-
-
-   static  public String readSelectionToString(JTextComponent text, int filter){
-        String input = text.getSelectedText();
-        String outputStr=input;
-
-        if (input==null)
-            return null;
-
-        switch (filter){
-          case noFilter:
-            break;
-          case defaultFilter:
-            outputStr=defaultFilter(input);
-            break;
-          case logicFilter:
-            outputStr=logicFilter(input);
-            break;
-          case lispFilter:
-            outputStr=lispFilter(input);
-            break;
-
-
-          case peculiarFilter:
-            outputStr=peculiarFilter(input);
-            break;
-
-          default:;
-        }
-
-        return
-            outputStr;
-      }
-  
-   */
    static  public String readStringToString(String input, int filter){
 
        String outputStr=input;
@@ -380,38 +316,7 @@ static  public String readSystemClipBoardToString(JTextComponent text, int filte
        return
            outputStr;
      }
-/*
-  static  public String readTextToString(JTextComponent text, int filter){
-      String input = text.getText();
-      String outputStr=input;
 
-      if (input==null)
-          return null;
-
-      switch (filter){
-        case noFilter:
-          break;
-        case defaultFilter:
-          outputStr=defaultFilter(input);
-          break;
-        case logicFilter:
-          outputStr=logicFilter(input);
-          break;
-        case lispFilter:
-          outputStr=lispFilter(input);
-          break;
-        case peculiarFilter:
-          outputStr=peculiarFilter(input);
-          break;
-
-        default:;
-      }
-
-      return
-          outputStr;
-    }
-
-*/
 static public String removeDuplicateChars(String inputStr){
       if (inputStr == null)
         return
@@ -596,188 +501,12 @@ public static String toLines(String inputStr, int lineLength){
              b.toString();
 }
 
-
+/* think this is not used
 private String StripHTML(String source)
-{ /*
-    try
-    {
-        String result;
-
-        // Remove HTML Development formatting
-        // Replace line breaks with space
-        // because browsers inserts space
-        result = source.Replace("\r", " ");
-        // Replace line breaks with space
-        // because browsers inserts space
-        result = result.Replace("\n", " ");
-        // Remove step-formatting
-        result = result.Replace("\t", string.Empty);
-        // Remove repeating spaces because browsers ignore them
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                                                              @"( )+", " ");
-
-        // Remove the header (prepare first by clearing attributes)
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"<( )*head([^>])*>","<head>",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"(<( )*(/)( )*head( )*>)","</head>",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 "(<head>).*(</head>)",string.Empty,
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-        // remove all scripts (prepare first by clearing attributes)
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"<( )*script([^>])*>","<script>",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"(<( )*(/)( )*script( )*>)","</script>",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        //result = System.Text.RegularExpressions.Regex.Replace(result,
-        //         @"(<script>)([^(<script>\.</script>)])*(</script>)",
-        //         string.Empty,
-        //         System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"(<script>).*(</script>)",string.Empty,
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-        // remove all styles (prepare first by clearing attributes)
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"<( )*style([^>])*>","<style>",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"(<( )*(/)( )*style( )*>)","</style>",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 "(<style>).*(</style>)",string.Empty,
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-        // insert tabs in spaces of <td> tags
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"<( )*td([^>])*>","\t",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-        // insert line breaks in places of <BR> and <LI> tags
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"<( )*br( )*>","\r",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"<( )*li( )*>","\r",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-        // insert line paragraphs (double line breaks) in place
-        // if <P>, <DIV> and <TR> tags
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"<( )*div([^>])*>","\r\r",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"<( )*tr([^>])*>","\r\r",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"<( )*p([^>])*>","\r\r",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-        // Remove remaining tags like <a>, links, images,
-        // comments etc - anything that's enclosed inside < >
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"<[^>]*>",string.Empty,
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-        // replace special characters:
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @" "," ",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"&bull;"," * ",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"&lsaquo;","<",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"&rsaquo;",">",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"&trade;","(tm)",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"&frasl;","/",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"&lt;","<",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"&gt;",">",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"&copy;","(c)",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"&reg;","(r)",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        // Remove all others. More can be added, see
-        // http://hotwired.lycos.com/webmonkey/reference/special_characters/
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 @"&(.{2,6});", string.Empty,
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-        // for testing
-        //System.Text.RegularExpressions.Regex.Replace(result,
-        //       this.txtRegex.Text,string.Empty,
-        //       System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-
-        // make line breaking consistent
-        result = result.Replace("\n", "\r");
-
-        // Remove extra line breaks and tabs:
-        // replace over 2 breaks with 2 and over 4 tabs with 4.
-        // Prepare first to remove any whitespaces in between
-        // the escaped characters and remove redundant tabs in between line breaks
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 "(\r)( )+(\r)","\r\r",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 "(\t)( )+(\t)","\t\t",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 "(\t)( )+(\r)","\t\r",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 "(\r)( )+(\t)","\r\t",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        // Remove redundant tabs
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 "(\r)(\t)+(\r)","\r\r",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        // Remove multiple tabs following a line break with just one tab
-        result = System.Text.RegularExpressions.Regex.Replace(result,
-                 "(\r)(\t)+","\r\t",
-                 System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-        // Initial replacement target string for line breaks
-        string breaks = "\r\r\r";
-        // Initial replacement target string for tabs
-        string tabs = "\t\t\t\t\t";
-        for (int index=0; index<result.Length; index++)
-        {
-            result = result.Replace(breaks, "\r\r");
-            result = result.Replace(tabs, "\t\t\t\t");
-            breaks = breaks + "\r";
-            tabs = tabs + "\t";
-        }
-
-        // That's it.
-        return result;
-    }
-    catch
-    {
-        MessageBox.Show("Error");
-        return source;
-    }
-*/
+{
 	return "";}
 
-
+*/
 
 
 
@@ -789,124 +518,10 @@ private String StripHTML(String source)
 
 static final String defaultKey = "EncryptDeriver"; // The key for 'encrypting' and 'decrypting'.
 
-//xOR Encrypt not working with logical symbols
 
-/*
-
-public static String xOrEncrypt(String str){
-  return
-     xOrEncrypt(str,defaultKey);
-}
-
-
-public static String xOrEncrypt(String str,String key)
-          {
-
-            byte [] strBytes;
-            try{strBytes=str.getBytes("UTF-8");}
-            catch(UnsupportedEncodingException e){strBytes=null;
-               return
-                 "";};
-
-            byte [] inKey;
-            try{inKey=key.getBytes("UTF-8");}
-            catch(UnsupportedEncodingException e){inKey=null;
-              return
-                "";};
-
-            int lenStr = strBytes.length;
-            int lenKey = inKey.length;
-
-            byte [] outBytes= new byte[lenStr];
-
-            for ( int i = 0, j = 0; i < lenStr; i++, j++ )
-             {
-                if ( j >= lenKey ) j = 0;  // Wrap 'round to beginning of key string.
-
-                //
-                // XOR the chars together. Must cast back to char to avoid compile error.
-                //
-        //        sb.setCharAt(i, (char)(str.charAt(i) ^ key.charAt(j)));
-
-               /* outBytes[i]= *//*strBytes[i]^=inKey[j];
-            }
-
-             String outStr="";
-
-             try{outStr=new String(strBytes,"UTF-8");}
-             catch(UnsupportedEncodingException e){};
-
-
-            return
-                outStr;
-          }
-
-
-
-
-static public String urlEncode(String inputStr){
-  String outputStr="";
-  try{outputStr=URLEncoder.encode(inputStr,"UTF-8");}
-             catch(UnsupportedEncodingException e){};
-  return
-      outputStr;
-}
-
-static public String urlDecode(String inputStr){
-  String outputStr="";
-  try{outputStr=URLDecoder.decode(inputStr,"UTF-8");}
-             catch(UnsupportedEncodingException e){};
-  return
-      outputStr;
-}
-
-
-/*The problem here is that we need to code text and logic symbols in such a way that the
- result is fully visible and cut and pastable. If we url encode only, it deals with the logic
- but leaves plain text unchanged. But then if we XOR it, it encodes the lot, but some might
- not be visible, so we url encode again*/
-               
-               /*
-static public String generalEncode(String inputStr){
-
-  return
-      urlEncode(xOrEncrypt(urlEncode(inputStr)));
-}
-
-static public String generalDecode(String inputStr){
-
-  if (inputStr==null||inputStr.length()==0)
-   return
-       inputStr;
-  else{
-     if (inputStr.charAt(0)=='[')             //string may or may not have the enclosing brackets
-        inputStr=inputStr.substring(1);
-
-     if (inputStr.length()>0&&inputStr.charAt(inputStr.length()-1)==']')
-        inputStr=inputStr.substring(0,inputStr.length()-1);
-     return
-       urlDecode(xOrEncrypt(urlDecode(inputStr)));
-   }
-}
-
-  
-*/
 
 
 }
-
-
-/*
- * 
- * 
- * <object class="java.util.ArrayList">    <void method="add">     <object class="us.softoption.interpretation.TProperty">      <void property="XCoord">       <int>239</int>      </void>      <void property="YCoord">       <int>41</int>      </void>      <void property="boundsRect">       <object class="java.awt.Rectangle">        <int>239</int>        <int>41</int>        <int>114</int>        <int>59</int>       </object>      </void>      <void property="name">       <char>F</char>      </void>      <void property="selected">       <boolean>false</boolean>      </void>     </object>    </void>    <void method="add">     <object class="us.softoption.interpretation.TIndividual">      <void property="XCoord">       <int>272</int>      </void>      <void property="YCoord">       <int>58</int>      </void>      <void property="name">       <char>a</char>      </void>      <void property="selected">       <boolean>false</boolean>      </void>     </object>    </void>    <void method="add">     <object class="us.softoption.interpretation.TInterpretationBoard">      <void property="boundsRect">       <object class="java.awt.Rectangle">        <int>5</int>        <int>0</int>        <int>150</int>        <int>40</int>       </object>      </void>      <void property="semantics">       <object class="us.softoption.interpretation.TSemantics"/>      </void>     </object>    </void>   </object> 
- * 
- * <oca>    <vma>     <ocp>      <vpx>       <i>239</i>      </v>      <vpy>       <i>41</i>      </v>      <vpbr>       <ocr>        <i>239</i>        <i>41</i>        <i>114</i>        <i>59</i>       </o>      </v>      <vpn>       <c>F</c>      </v>      <vps>       <b>false</b>      </v>     </o>    </v>    <vma>     <oci>      <vpx>       <i>272</i>      </v>      <vpy>       <i>58</i>      </v>      <vpn>       <c>a</c>      </v>      <vps>       <b>false</b>      </v>     </o>    </v>    <vma>     <ocb>      <vpbr>       <ocr>        <i>5</i>        <i>0</i>        <i>150</i>        <i>40</i>       </o>      </v>      <vpss>       <ocs>      </v>     </o>    </v>   </o> 
- * 
- * <oca> </o> 
- * 
- */
-
 
 
 

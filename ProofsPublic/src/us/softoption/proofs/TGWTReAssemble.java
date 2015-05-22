@@ -1,3 +1,19 @@
+/*
+Copyright (C) 2014 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 package us.softoption.proofs;
 
 /*This is a Feb2013 Google GWT friendly version of 2012 TReAssemble */
@@ -31,7 +47,7 @@ import us.softoption.parser.TParser;
 /*look at EIConc break dummy */
 
 
-class TReAssemble{
+class TGWTReAssemble{
   TParser fParser;
   TTestNode fTestNode;
   public ArrayList fHead = new ArrayList();
@@ -55,11 +71,11 @@ class TReAssemble{
 
 
 
-  TReAssemble(){    // don't use this
+  TGWTReAssemble(){    // don't use this
 
   }
 
-  TReAssemble(TParser aParser, TTestNode aTestNode, ArrayList aHead,
+  TGWTReAssemble(TParser aParser, TTestNode aTestNode, ArrayList aHead,
               int aLastAssIndex) {
     fParser = aParser;
     fTestNode = aTestNode;
@@ -147,10 +163,10 @@ return
   }
 
 
-public TReAssemble supplyTReAssemble(TTestNode aTestNode, ArrayList aHead,
+public TGWTReAssemble supplyTReAssemble(TTestNode aTestNode, ArrayList aHead,
               int aLastAssIndex){
 return
-   new TReAssemble(fParser, aTestNode, aHead, aLastAssIndex);
+   new TGWTReAssemble(fParser, aTestNode, aHead, aLastAssIndex);
 }
 
 
@@ -1259,7 +1275,7 @@ class Implic {
    TTestNode proveNotBTest;
 
 
-  Implic(TReAssemble leftReAss, TReAssemble rightReAss) {
+  Implic(TGWTReAssemble leftReAss, TGWTReAssemble rightReAss) {
 
    notA = (TFormula) (fTestNode.getLeftChild().fAntecedents.get(0)); //not A
    B = (TFormula) (fTestNode.getRightChild().fAntecedents.get(0)); //B
@@ -1275,9 +1291,9 @@ class Implic {
    firstConc = (TProofline) leftReAss.fHead.get(leftReAss.fHead.size() - 1);
    secondConc = (TProofline) rightReAss.fHead.get(rightReAss.fHead.size() - 1);
 
-   dummy1 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+   dummy1 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                       leftReAss.fLastAssIndex, notA);
-   dummy2 = TMergeData.inPremises(fTestNode, rightReAss.fHead,
+   dummy2 = TGWTMergeData.inPremises(fTestNode, rightReAss.fHead,
                                      rightReAss.fLastAssIndex, B);
   }
 
@@ -1398,7 +1414,7 @@ class Implic {
 
 
 
-  void doImplic(TReAssemble leftReAss, TReAssemble rightReAss) {
+  void doImplic(TGWTReAssemble leftReAss, TGWTReAssemble rightReAss) {
 
     if ( (dummy1 != -1) && (dummy2 != -1)) { //normal case ~A B
 
@@ -1551,13 +1567,13 @@ class Implic {
 
 
 
-  void optimizeImplicPonens(TTestNode proveATest,TFormula arrowFormula,TReAssemble rightReAss){  //I think this is done
+  void optimizeImplicPonens(TTestNode proveATest,TFormula arrowFormula,TGWTReAssemble rightReAss){  //I think this is done
       /*
        The branches split with ~A on left and B on right, and we can derive A
 
        */
 
-      TReAssemble proveA = supplyTReAssemble( proveATest, null, 0);
+      TGWTReAssemble proveA = supplyTReAssemble( proveATest, null, 0);
 
       proveA.reAssembleProof(); //proof of A}
 
@@ -1583,7 +1599,7 @@ class Implic {
 
       if (rightReAss.transfer(TTestNode.atomic, arrowFormula.fRLink)){  //B
 
-         TMergeData mergeData = new TMergeData(TReAssemble.this, rightReAss);
+         TGWTMergeData mergeData = new TGWTMergeData(TGWTReAssemble.this, rightReAss);
 
          mergeData.merge();
 
@@ -1680,7 +1696,7 @@ class Implic {
 }  //end of DoImplic class
 
 
-  void optimizeImplicTollens(TTestNode proveNotBTest,TFormula arrowFormula,TReAssemble leftReAss){  //I think this is done
+  void optimizeImplicTollens(TTestNode proveNotBTest,TFormula arrowFormula,TGWTReAssemble leftReAss){  //I think this is done
          /*
 
       We take this out of the Implic Class so that subclasses that really have Modus
@@ -1691,7 +1707,7 @@ Tollens can override it.
 
           */
 
-         TReAssemble proveNotB = supplyTReAssemble( proveNotBTest, null, 0);
+         TGWTReAssemble proveNotB = supplyTReAssemble( proveNotBTest, null, 0);
 
          proveNotB.reAssembleProof(); //proof of notB, notB is last line}
 
@@ -1770,7 +1786,7 @@ Tollens can override it.
 
          if (leftReAss.transfer(TTestNode.atomic, notA)){
 
-            TMergeData mergeData = new TMergeData(TReAssemble.this, leftReAss);
+            TGWTMergeData mergeData = new TGWTMergeData(TGWTReAssemble.this, leftReAss);
 
             mergeData.merge();
 
@@ -2021,7 +2037,7 @@ Tollens can override it.
 */
 
 
-  void noOptimizeImplic(TReAssemble leftReAss, TReAssemble rightReAss,
+  void noOptimizeImplic(TGWTReAssemble leftReAss, TGWTReAssemble rightReAss,
                         TFormula notA, TFormula B,TFormula arrowFormula,
                         TProofline firstConc,TProofline secondConc){
 
@@ -2039,7 +2055,7 @@ Tollens can override it.
           leftReAss.convertToSubProof();
           rightReAss.convertToSubProof();
 
-          TMergeData mergeData = new TMergeData(leftReAss, rightReAss);
+          TGWTMergeData mergeData = new TGWTMergeData(leftReAss, rightReAss);
 
           mergeData.merge();
 
@@ -2139,16 +2155,16 @@ Tollens can override it.
 
 /****************** Equivv (Node type 20) *************************************/
 
-        void doEquivv(TReAssemble leftReAss) {
+        void doEquivv(TGWTReAssemble leftReAss) {
            fHead = leftReAss.fHead;
            fLastAssIndex = leftReAss.fLastAssIndex;
 
            TFormula AarrowB = (TFormula) (leftReAss.fTestNode.fAntecedents.get(0));
            TFormula BarrowA = (TFormula) (leftReAss.fTestNode.fAntecedents.get(1));
 
-           int dummy1 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+           int dummy1 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                               leftReAss.fLastAssIndex, AarrowB); //not sure
-           int dummy2 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+           int dummy2 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                               leftReAss.fLastAssIndex, BarrowA);
 
            if ( (dummy1 != -1) || (dummy2 != -1)) {
@@ -2263,16 +2279,16 @@ we don't use in the proof eg ~A or B is always first, so we will drop that one.
 
   /*********************************************************/
 
-  void doAand(TReAssemble leftReAss) {
+  void doAand(TGWTReAssemble leftReAss) {
     fHead = leftReAss.fHead;
     fLastAssIndex = leftReAss.fLastAssIndex;
 
     TFormula leftFormula = (TFormula) (leftReAss.fTestNode.fAntecedents.get(0));
     TFormula rightFormula = (TFormula) (leftReAss.fTestNode.fAntecedents.get(1));
 
-    int dummy1 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+    int dummy1 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                        leftReAss.fLastAssIndex, leftFormula); //not sure
-    int dummy2 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+    int dummy2 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                        leftReAss.fLastAssIndex, rightFormula);
 
     if ( (dummy1 != -1) || (dummy2 != -1)) {
@@ -2343,13 +2359,13 @@ we don't use in the proof eg ~A or B is always first, so we will drop that one.
 
    */
 
-  void doDoubleNeg(TReAssemble leftReAss) {
+  void doDoubleNeg(TGWTReAssemble leftReAss) {
     fHead = leftReAss.fHead;
     fLastAssIndex = leftReAss.fLastAssIndex;
 
     TFormula theFormula = (TFormula) (leftReAss.fTestNode.fAntecedents.get(0));
 
-    int dummy1 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+    int dummy1 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                        leftReAss.fLastAssIndex, theFormula); //not sure
 
     if (dummy1 != -1) {
@@ -2426,7 +2442,7 @@ we don't use in the proof eg ~A or B is always first, so we will drop that one.
    */
 
 
-  void doDoubleNegS(TReAssemble leftReAss) {
+  void doDoubleNegS(TGWTReAssemble leftReAss) {
 
     // from |-A to |-~~A
 
@@ -2612,7 +2628,7 @@ fHead.add(newline);
 
 
 
-  void doEquivvS(TReAssemble leftReAss,TReAssemble rightReAss) {
+  void doEquivvS(TGWTReAssemble leftReAss,TGWTReAssemble rightReAss) {
     TProofline firstcon=(TProofline)leftReAss.fHead.get(leftReAss.fHead.size()-1);
     TProofline secondcon=(TProofline)rightReAss.fHead.get(rightReAss.fHead.size()-1);
 
@@ -2637,7 +2653,7 @@ fHead.add(newline);
 
     rightReAss.convertToSubProof();
 
-    TMergeData mergeData = new TMergeData(this, rightReAss);
+    TGWTMergeData mergeData = new TGWTMergeData(this, rightReAss);
 
        mergeData.merge();
 
@@ -8654,7 +8670,7 @@ class OreS{
  TTestNode proveDisjunctTest;
 
 
-void doOreS(TReAssemble leftReAss){
+void doOreS(TGWTReAssemble leftReAss){
 
   fHead=leftReAss.fHead;
   fLastAssIndex=leftReAss.fLastAssIndex;  //{proof of B from not A}
@@ -8757,7 +8773,7 @@ boolean canProveDisjunct(TFormula aFormula){
 
   void optimizeOr(TTestNode tempTest,TFormula orFormula){
 
-    TReAssemble tempReAss=supplyTReAssemble(tempTest,null,0);
+    TGWTReAssemble tempReAss=supplyTReAssemble(tempTest,null,0);
 
             tempReAss.reAssembleProof();
 
@@ -8941,7 +8957,7 @@ boolean canProveDisjunct(TFormula aFormula){
 
 */
 
-void doNegImplic(TReAssemble leftReAss){
+void doNegImplic(TGWTReAssemble leftReAss){
 
   TFormula A = (TFormula) (fTestNode.getLeftChild().fAntecedents.get(
       0));
@@ -8951,9 +8967,9 @@ void doNegImplic(TReAssemble leftReAss){
   fHead = leftReAss.fHead;
   fLastAssIndex = leftReAss.fLastAssIndex;
 
-  int dummy1 = TMergeData.inPremises(fTestNode, fHead,
+  int dummy1 = TGWTMergeData.inPremises(fTestNode, fHead,
                                      fLastAssIndex, A); //not sure
-  int dummy2 = TMergeData.inPremises(fTestNode, fHead,
+  int dummy2 = TGWTMergeData.inPremises(fTestNode, fHead,
                                      fLastAssIndex, notB);
   if ( (dummy1 != -1) || (dummy2 != -1)) {
 
@@ -9068,7 +9084,7 @@ end;
 
 */
 
-void doNore(TReAssemble leftReAss){
+void doNore(TGWTReAssemble leftReAss){
 
    TFormula leftFormula = (TFormula) (fTestNode.getLeftChild().fAntecedents.get(0));
    TFormula rightFormula = (TFormula) (fTestNode.getLeftChild().fAntecedents.get(1));
@@ -9076,9 +9092,9 @@ void doNore(TReAssemble leftReAss){
    fHead = leftReAss.fHead;
    fLastAssIndex = leftReAss.fLastAssIndex;
 
-   int dummy1 = TMergeData.inPremises(fTestNode, fHead,
+   int dummy1 = TGWTMergeData.inPremises(fTestNode, fHead,
                                        fLastAssIndex, leftFormula); //not sure
-   int dummy2 = TMergeData.inPremises(fTestNode, fHead,
+   int dummy2 = TGWTMergeData.inPremises(fTestNode, fHead,
                                        fLastAssIndex, rightFormula);
 
    if ( (dummy1 != -1) || (dummy2 != -1)) {
@@ -9185,7 +9201,7 @@ end;
 */
 
 
-void doOre(TReAssemble leftReAss, TReAssemble rightReAss){
+void doOre(TGWTReAssemble leftReAss, TGWTReAssemble rightReAss){
     TFormula leftFormula, rightFormula;
     TProofline lastProofLine, firstConc, secondConc;
     int firstTailIndex,secondTailIndex;
@@ -9196,9 +9212,9 @@ void doOre(TReAssemble leftReAss, TReAssemble rightReAss){
     firstConc = (TProofline) leftReAss.fHead.get(leftReAss.fHead.size() - 1);
     secondConc = (TProofline) rightReAss.fHead.get(rightReAss.fHead.size() - 1);
 
-    int dummy1 = TMergeData.inPremises(fTestNode, leftReAss.fHead,            //tells if left formula used
+    int dummy1 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,            //tells if left formula used
                                        leftReAss.fLastAssIndex, leftFormula); //not sure
-    int dummy2 = TMergeData.inPremises(fTestNode, rightReAss.fHead,
+    int dummy2 = TGWTMergeData.inPremises(fTestNode, rightReAss.fHead,
                                        rightReAss.fLastAssIndex, rightFormula);
 
     if ( (dummy1 != -1) && (dummy2 != -1)) {        //both used
@@ -9243,7 +9259,7 @@ void doOre(TReAssemble leftReAss, TReAssemble rightReAss){
 
    */
 
-      TMergeData mergeData = new TMergeData(leftReAss, rightReAss);
+      TGWTMergeData mergeData = new TGWTMergeData(leftReAss, rightReAss);
 
       mergeData.merge();
 
@@ -9854,7 +9870,7 @@ void addOrConc(int firstTailIndex,int secondTailIndex,int orJustNum){
 
 */
 
-void doReductio(TReAssemble leftReAss){
+void doReductio(TGWTReAssemble leftReAss){
   fHead=leftReAss.fHead;
   fLastAssIndex=leftReAss.fLastAssIndex;
 
@@ -9894,7 +9910,7 @@ end;
 
 
 
-void doUni(TReAssemble leftReAss){
+void doUni(TGWTReAssemble leftReAss){
   fHead=leftReAss.fHead;
   fLastAssIndex=leftReAss.fLastAssIndex;
 
@@ -9950,7 +9966,7 @@ void doUni(TReAssemble leftReAss){
 
      if (instance){
 
-       dummy = TMergeData.inPremises(fTestNode, fHead, fLastAssIndex, search);
+       dummy = TGWTMergeData.inPremises(fTestNode, fHead, fLastAssIndex, search);
 
        if (dummy != -1)
          redundant = false;
@@ -10041,13 +10057,13 @@ if (instance){
 
 */
 
-void doTypedExi(TReAssemble leftReAss) {
+void doTypedExi(TGWTReAssemble leftReAss) {
   fHead = leftReAss.fHead;
   fLastAssIndex = leftReAss.fLastAssIndex;
 
   TFormula theFormula = (TFormula) (leftReAss.fTestNode.fAntecedents.get(0));
 
-  int dummy1 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+  int dummy1 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                      leftReAss.fLastAssIndex, theFormula); //not sure
 
   if (dummy1 != -1) {
@@ -10061,13 +10077,13 @@ void doTypedExi(TReAssemble leftReAss) {
 
   }
 
-  void doNegTypedExi(TReAssemble leftReAss) {
+  void doNegTypedExi(TGWTReAssemble leftReAss) {
     fHead = leftReAss.fHead;
     fLastAssIndex = leftReAss.fLastAssIndex;
 
     TFormula theFormula = (TFormula) (leftReAss.fTestNode.fAntecedents.get(0));
 
-    int dummy1 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+    int dummy1 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                        leftReAss.fLastAssIndex, theFormula); //not sure
 
     if (dummy1 != -1) {
@@ -10090,13 +10106,13 @@ void doTypedExi(TReAssemble leftReAss) {
 
 
 
-void doTypedUni(TReAssemble leftReAss) {
+void doTypedUni(TGWTReAssemble leftReAss) {
   fHead = leftReAss.fHead;
   fLastAssIndex = leftReAss.fLastAssIndex;
 
   TFormula theFormula = (TFormula) (leftReAss.fTestNode.fAntecedents.get(0));
 
-  int dummy1 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+  int dummy1 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                      leftReAss.fLastAssIndex, theFormula); //not sure
 
   if (dummy1 != -1) {
@@ -10110,13 +10126,13 @@ void doTypedUni(TReAssemble leftReAss) {
 
   }
 
-  void doNegTypedUni(TReAssemble leftReAss) {
+  void doNegTypedUni(TGWTReAssemble leftReAss) {
     fHead = leftReAss.fHead;
     fLastAssIndex = leftReAss.fLastAssIndex;
 
     TFormula theFormula = (TFormula) (leftReAss.fTestNode.fAntecedents.get(0));
 
-    int dummy1 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+    int dummy1 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                        leftReAss.fLastAssIndex, theFormula); //not sure
 
     if (dummy1 != -1) {
@@ -10353,7 +10369,7 @@ void addEIConc(){
 */
 
 
-void doExi(TReAssemble leftReAss){
+void doExi(TGWTReAssemble leftReAss){
 
   TFormula scope=(TFormula)leftReAss.fTestNode.fAntecedents.get(0);
   TFormula variable=(TFormula)leftReAss.fTestNode.fAntecedents.get(1);
@@ -10361,7 +10377,7 @@ void doExi(TReAssemble leftReAss){
   fHead=leftReAss.fHead;
   fLastAssIndex=leftReAss.fLastAssIndex;
 
-  int dummy = TMergeData.inPremises(fTestNode, fHead,
+  int dummy = TGWTMergeData.inPremises(fTestNode, fHead,
                                        fLastAssIndex, scope);
 
     if (dummy != -1) {
@@ -10439,7 +10455,7 @@ end;
   class DoExiCV{
     TFormula exiFormula,oldExiFormula,scope,oldScope,variable,oldVariable;
 
- public  DoExiCV(TReAssemble leftReAss){
+ public  DoExiCV(TGWTReAssemble leftReAss){
    scope=(TFormula)leftReAss.fTestNode.fAntecedents.get(0);
    variable=(TFormula)leftReAss.fTestNode.fAntecedents.get(1);
    oldVariable=(TFormula)leftReAss.fTestNode.fAntecedents.get(2);
@@ -10484,14 +10500,14 @@ end;
 
   }
 
-  void doExiCV(TReAssemble leftReAss){
+  void doExiCV(TGWTReAssemble leftReAss){
 
 
 
     fHead=leftReAss.fHead;
     fLastAssIndex=leftReAss.fLastAssIndex;
 
-    int dummy = TMergeData.inPremises(fTestNode, fHead,
+    int dummy = TGWTMergeData.inPremises(fTestNode, fHead,
                                          fLastAssIndex, scope);
 
       if (dummy != -1) {
@@ -10632,14 +10648,14 @@ end;
 
 
 
-  void doNegExi(TReAssemble leftReAss){
+  void doNegExi(TGWTReAssemble leftReAss){
 
     TFormula allNot=(TFormula)leftReAss.fTestNode.fAntecedents.get(0);
 
     fHead=leftReAss.fHead;
     fLastAssIndex=leftReAss.fLastAssIndex;
 
-    int dummy1 = TMergeData.inPremises(fTestNode, fHead,
+    int dummy1 = TGWTMergeData.inPremises(fTestNode, fHead,
                                          fLastAssIndex, allNot);
       if (dummy1 != -1) {
         TFormula negExi = new TFormula(TFormula.unary,
@@ -10716,14 +10732,14 @@ end;
 
 */
 
- void doNegUni(TReAssemble leftReAss){
+ void doNegUni(TGWTReAssemble leftReAss){
 
   TFormula exiNot=(TFormula)leftReAss.fTestNode.fAntecedents.get(0);
 
   fHead=leftReAss.fHead;
   fLastAssIndex=leftReAss.fLastAssIndex;
 
-  int dummy1 = TMergeData.inPremises(fTestNode, fHead,
+  int dummy1 = TGWTMergeData.inPremises(fTestNode, fHead,
                                        fLastAssIndex, exiNot);
     if (dummy1 != -1) {
       TFormula negUni = new TFormula(TFormula.unary,
@@ -10806,14 +10822,14 @@ end;
 */
 
 
- void doExi(TReAssemble leftReAss){
+ void doExi(TGWTReAssemble leftReAss){
 
    DoExi doer = new DoExi();
 
    doer.doExi(leftReAss);
  }
 
-void doExiS(TReAssemble leftReAss){
+void doExiS(TGWTReAssemble leftReAss){
   fHead=leftReAss.fHead;
   fLastAssIndex=leftReAss.fLastAssIndex;
 
@@ -10862,7 +10878,7 @@ end;
 
 */
 
-void doUniS(TReAssemble leftReAss){
+void doUniS(TGWTReAssemble leftReAss){
   fHead=leftReAss.fHead;
   fLastAssIndex=leftReAss.fLastAssIndex;
 
@@ -10906,7 +10922,7 @@ end;
 
 */
 
-void doTypedRewriteS(TReAssemble leftReAss){
+void doTypedRewriteS(TGWTReAssemble leftReAss){
   fHead=leftReAss.fHead;
   fLastAssIndex=leftReAss.fLastAssIndex;
 
@@ -11010,7 +11026,7 @@ class NegAnd {
    TTestNode proveAandBTest,proveATest,proveBTest;
 
 
-  NegAnd(TReAssemble leftReAss, TReAssemble rightReAss) {
+  NegAnd(TGWTReAssemble leftReAss, TGWTReAssemble rightReAss) {
 
    leftFormula = (TFormula) (fTestNode.getLeftChild().fAntecedents.get(0)); //not A
    rightFormula = (TFormula) (fTestNode.getRightChild().fAntecedents.get(0)); //not B
@@ -11027,9 +11043,9 @@ class NegAnd {
    firstConc = (TProofline) leftReAss.fHead.get(leftReAss.fHead.size() - 1);
    secondConc = (TProofline) rightReAss.fHead.get(rightReAss.fHead.size() - 1);
 
-   dummy1 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+   dummy1 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                       leftReAss.fLastAssIndex, leftFormula);
-   dummy2 = TMergeData.inPremises(fTestNode, rightReAss.fHead,
+   dummy2 = TGWTMergeData.inPremises(fTestNode, rightReAss.fHead,
                                      rightReAss.fLastAssIndex, rightFormula);
   }
 
@@ -11145,7 +11161,7 @@ class NegAnd {
 
 
 
-  void doNegAnd(TReAssemble leftReAss, TReAssemble rightReAss) {
+  void doNegAnd(TGWTReAssemble leftReAss, TGWTReAssemble rightReAss) {
 
     if ( (dummy1 != -1) && (dummy2 != -1)) { //normal case ~A B
 
@@ -11179,7 +11195,7 @@ class NegAnd {
           leftReAss.convertToSubProof();
           rightReAss.convertToSubProof();
 
-          TMergeData mergeData = new TMergeData(leftReAss, rightReAss);
+          TGWTMergeData mergeData = new TGWTMergeData(leftReAss, rightReAss);
 
           mergeData.merge();
 
@@ -11275,7 +11291,7 @@ class NegAnd {
       }
   }
 
-  void optimize1(TTestNode proveATest,TFormula negAndFormula,TReAssemble rightReAss){
+  void optimize1(TTestNode proveATest,TFormula negAndFormula,TGWTReAssemble rightReAss){
       //I think this is done
       /*
        The branches split with ~A on left and ~B on right, and we can derive A. And this
@@ -11284,7 +11300,7 @@ class NegAnd {
 
        */
 
-      TReAssemble proveA = supplyTReAssemble( proveATest, null, 0);
+      TGWTReAssemble proveA = supplyTReAssemble( proveATest, null, 0);
 
       proveA.reAssembleProof(); //proof of A}
 
@@ -11317,7 +11333,7 @@ class NegAnd {
 
          TProofline notBLine=(TProofline)(rightReAss.fHead.get(rightReAss.fLastAssIndex+1));
 
-         TMergeData mergeData = new TMergeData(TReAssemble.this, rightReAss);
+         TGWTMergeData mergeData = new TGWTMergeData(TGWTReAssemble.this, rightReAss);
 
          mergeData.merge();
 
@@ -11413,7 +11429,7 @@ class NegAnd {
   */
 
 
-void optimize2(TTestNode proveBTest,TFormula negAndFormula,TReAssemble leftReAss){
+void optimize2(TTestNode proveBTest,TFormula negAndFormula,TGWTReAssemble leftReAss){
 
      /*
       The branches split with ~A on left and ~B on right, and we can derive B. And this
@@ -11422,7 +11438,7 @@ void optimize2(TTestNode proveBTest,TFormula negAndFormula,TReAssemble leftReAss
 
       */
 
-     TReAssemble proveB = supplyTReAssemble( proveBTest, null, 0);
+     TGWTReAssemble proveB = supplyTReAssemble( proveBTest, null, 0);
 
      proveB.reAssembleProof(); //proof of B}
 
@@ -11443,7 +11459,7 @@ void optimize2(TTestNode proveBTest,TFormula negAndFormula,TReAssemble leftReAss
 
         TProofline notALine=(TProofline)(leftReAss.fHead.get(leftReAss.fLastAssIndex+1));
 
-        TMergeData mergeData = new TMergeData(TReAssemble.this, leftReAss);
+        TGWTMergeData mergeData = new TGWTMergeData(TGWTReAssemble.this, leftReAss);
 
         mergeData.merge();
 
@@ -12065,17 +12081,17 @@ boolean doOptimizeR(){
   }
 
   if (found){
-     TReAssemble leftReAss =supplyTReAssemble(provePosHornTest,null,0);
+     TGWTReAssemble leftReAss =supplyTReAssemble(provePosHornTest,null,0);
      leftReAss.reAssembleProof();
 
      fNegHorn=search;
 
      produceNegHornNode();
 
-     TReAssemble rightReAss =supplyTReAssemble(proveNegHorn,null,0);
+     TGWTReAssemble rightReAss =supplyTReAssemble(proveNegHorn,null,0);
      rightReAss.reAssembleProof();
 
-     TMergeData mergeData=new TMergeData(leftReAss,rightReAss);
+     TGWTMergeData mergeData=new TGWTMergeData(leftReAss,rightReAss);
 
      mergeData.merge();
 
@@ -12369,7 +12385,7 @@ end;
 //////////////////////////////////////
 
 
-void doImplicS(TReAssemble leftReAss){
+void doImplicS(TGWTReAssemble leftReAss){
 
   /*
 
@@ -12483,14 +12499,14 @@ convert the last bit to a subproof, and add A ->B
 
 
 
-void doAandS(TReAssemble leftReAss, TReAssemble rightReAss){
+void doAandS(TGWTReAssemble leftReAss, TGWTReAssemble rightReAss){
   TFormula leftFormula, rightFormula;
   TProofline lastProofLine;
 
   leftFormula= (TFormula)(fTestNode.getLeftChild().fSuccedent.get(0));
   rightFormula= (TFormula)(fTestNode.getRightChild().fSuccedent.get(0));
 
-  TMergeData mergeData=new TMergeData(leftReAss,rightReAss);
+  TGWTMergeData mergeData=new TGWTMergeData(leftReAss,rightReAss);
 
   mergeData.merge();
 
@@ -13070,8 +13086,8 @@ void reAssembleProof(){
 
 
 
-  TReAssemble leftReAss=null;
-  TReAssemble rightReAss=null;
+  TGWTReAssemble leftReAss=null;
+  TGWTReAssemble rightReAss=null;
 
 
   TTestNode leftChild=fTestNode.getLeftChild();

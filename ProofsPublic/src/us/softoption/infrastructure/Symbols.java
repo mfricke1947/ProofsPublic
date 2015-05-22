@@ -1,3 +1,19 @@
+/*
+Copyright (C) 2014 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 package us.softoption.infrastructure;
 
 public class Symbols {
@@ -143,6 +159,12 @@ public class Symbols {
 	public static final String strEmptySet ="\u2205";
 	public static final char chUniverseSet = 'Ü'; //'U'; German U-umlaut symbol and it is typed by following option-u with uppercase-U
 	public static final String strUniverseSet = "Ü"; //="U";
+        
+        /*In set theory, the universet set is usually upper-case U (and it is a constant
+        but we already have upper-case U as a proposition, predicate relation etc. which
+        would mean that UU or even UUUUUUU are well-formed, but hard to parse, so we use the
+        German up-case Ü for the universet set.
+        */
 	
 	public static final char chDownTack = '\u22A4';   //the single letter symbol for true
 	public static final String strDownTack = chDownTack+"";   //the single letter symbol for true

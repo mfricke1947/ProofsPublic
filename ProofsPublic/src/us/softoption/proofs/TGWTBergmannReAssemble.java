@@ -1,3 +1,19 @@
+/*
+Copyright (C) 2014 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 package us.softoption.proofs;
 
 /*This is a Jan2014 Google GWT friendly version of 2012 TBergmannReAssemble */
@@ -24,13 +40,13 @@ doubleNeg transfer
 
  */
 
-class TBergmannReAssemble extends TReAssemble{
+class TGWTBergmannReAssemble extends TGWTReAssemble{
 
   String fQNJustification = " QN";
 
 
 
-  TBergmannReAssemble(TParser aParser, TTestNode aTestNode, ArrayList aHead,
+  TGWTBergmannReAssemble(TParser aParser, TTestNode aTestNode, ArrayList aHead,
                      int aLastAssIndex) {
     super(aParser, aTestNode, aHead, aLastAssIndex);
 
@@ -51,10 +67,10 @@ class TBergmannReAssemble extends TReAssemble{
         new TProofline(fParser);
   }
 
-  public TReAssemble supplyTReAssemble(TTestNode aTestNode, ArrayList aHead,
+  public TGWTReAssemble supplyTReAssemble(TTestNode aTestNode, ArrayList aHead,
                                        int aLastAssIndex) {
     return
-        new TBergmannReAssemble(fParser, aTestNode, aHead, aLastAssIndex);
+        new TGWTBergmannReAssemble(fParser, aTestNode, aHead, aLastAssIndex);
   }
 
   /************* End of Proofline factory ************/
@@ -94,7 +110,7 @@ void addEIConc(){
 
 
 
-void doExi(TReAssemble leftReAss){
+void doExi(TGWTReAssemble leftReAss){
 
   TFormula scope=(TFormula)leftReAss.fTestNode.fAntecedents.get(0);
   TFormula variable=(TFormula)leftReAss.fTestNode.fAntecedents.get(1);
@@ -103,7 +119,7 @@ void doExi(TReAssemble leftReAss){
   fHead=leftReAss.fHead;
   fLastAssIndex=leftReAss.fLastAssIndex;
 
-  int dummy = TMergeData.inPremises(fTestNode, fHead,
+  int dummy = TGWTMergeData.inPremises(fTestNode, fHead,
                                        fLastAssIndex, scope);
 
     if (dummy != -1) {
@@ -2149,7 +2165,7 @@ if (TConstants.DEBUG){
   }
 
 
-void doExi(TReAssemble leftReAss){
+void doExi(TGWTReAssemble leftReAss){
 
     DoExi doer = new DoExi();
 
@@ -2157,7 +2173,7 @@ void doExi(TReAssemble leftReAss){
  }
 
 
- void noOptimizeImplic(TReAssemble leftReAss, TReAssemble rightReAss,
+ void noOptimizeImplic(TGWTReAssemble leftReAss, TGWTReAssemble rightReAss,
                          TFormula notA, TFormula B,TFormula arrowFormula,
                          TProofline firstConc,TProofline secondConc){
 
@@ -2175,7 +2191,7 @@ void doExi(TReAssemble leftReAss){
            leftReAss.convertToSubProof();
            rightReAss.convertToSubProof();
 
-           TMergeData mergeData = new TMergeData(leftReAss, rightReAss);
+           TGWTMergeData mergeData = new TGWTMergeData(leftReAss, rightReAss);
 
            mergeData.merge();
 
@@ -2341,13 +2357,13 @@ public boolean testIt(Object parameter){
             ~A   Ass
             A  1,2 NegE  */
 
-  void doDoubleNeg(TReAssemble leftReAss) {
+  void doDoubleNeg(TGWTReAssemble leftReAss) {
    fHead = leftReAss.fHead;
    fLastAssIndex = leftReAss.fLastAssIndex;
 
    TFormula A = (TFormula) (leftReAss.fTestNode.fAntecedents.get(0));  //A
 
-   int dummy1 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+   int dummy1 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                       leftReAss.fLastAssIndex, A); //not sure
 
    if (dummy1 != -1) {
@@ -2646,16 +2662,16 @@ TProofline(localHead.At(insertHere)).fJustification := ' ~E';
  }
 
 
-  void doEquivv(TReAssemble leftReAss) {
+  void doEquivv(TGWTReAssemble leftReAss) {
    fHead = leftReAss.fHead;
    fLastAssIndex = leftReAss.fLastAssIndex;
 
    TFormula AarrowB = (TFormula) (leftReAss.fTestNode.fAntecedents.get(0));
    TFormula BarrowA = (TFormula) (leftReAss.fTestNode.fAntecedents.get(1));
 
-   int dummy1 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+   int dummy1 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                       leftReAss.fLastAssIndex, AarrowB); //not sure
-   int dummy2 = TMergeData.inPremises(fTestNode, leftReAss.fHead,
+   int dummy2 = TGWTMergeData.inPremises(fTestNode, leftReAss.fHead,
                                       leftReAss.fLastAssIndex, BarrowA);
 
    if ( (dummy1 != -1) || (dummy2 != -1)) {

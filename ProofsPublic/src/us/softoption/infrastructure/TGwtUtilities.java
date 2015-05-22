@@ -1,3 +1,19 @@
+/*
+Copyright (C) 2014 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 package us.softoption.infrastructure;
 
 import com.google.gwt.user.client.ui.TextArea;
@@ -24,24 +40,16 @@ static public void writeOverJournalSelection(TextArea journal, String message){
                            message +
                            text.substring(current+selLength);
         
-       // journal.setCursorPos(current+messageLength); //after new sel
-       // journal.setSelectionRange(current+messageLength,0); //pos, length
-        
         journal.setText(text);
         
         journal.setCursorPos(current+messageLength);
         journal.setSelectionRange(current+messageLength,0);
         journal.setFocus(true);
         
-     //   journal.setFocus(true);
 
      }	
 
  static public void writeToJournal(TextArea journal, String message, boolean highlight){
-
-	// before aaa<sel>bbb
-	 // after aaa<new>Ibbb or
-	 // after aaaI<new>bbb with new selected
          
 	 
 	 int oldCaretPos = journal.getCursorPos();
@@ -60,8 +68,7 @@ static public void writeOverJournalSelection(TextArea journal, String message){
          text=before+
               message +
               after; // we con't want to include the original selection
-         
-      //   text=text.substring(0,newCaretPosition)+"Hello";
+        
          
          journal.setText(text);
 
@@ -89,34 +96,6 @@ static public void writeOverJournalSelection(TextArea journal, String message){
          }
       }	
 	
- /*
-
-private void writeToJournal(String message, boolean highlight,boolean toMarker){
-
-        int newCaretPosition = fJournalPane.getSelectionEnd(); //if there isn't one it's dot which is the old one
-
-        int messageLength = message.length();
-
-        if (messageLength>0) {
-
-          fJournalPane.setSelectionStart(newCaretPosition);
-          fJournalPane.setCaretPosition(newCaretPosition);    //leave existing selection and do everything after
-
-          fJournalPane.replaceSelection(message);
-
-          if (highlight) {
-            fJournalPane.setSelectionStart(newCaretPosition);
-            fJournalPane.setSelectionEnd(newCaretPosition+messageLength);
-
-          }
-
-        }
-     }		
-}
-
-
-
-  * */
 
  
  

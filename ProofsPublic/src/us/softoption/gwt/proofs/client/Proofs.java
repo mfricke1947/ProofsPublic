@@ -1,3 +1,21 @@
+/*
+Copyright (C) 2015 Martin Frické (mfricke@u.arizona.edu http://softoption.us mfricke@softoption.us)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the 
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+// 5/21/2015
+
 package us.softoption.gwt.proofs.client;
  
 
@@ -50,20 +68,11 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class Proofs implements EntryPoint, TJournal, TReset {
 
-//	TGWTProofDocument fDeriverDocument= new TGWTProofDocument(this);
 	
-//	public boolean fRewriteRules=true; // extra menu item
-	
-	//THIS IS A LITTLE INELEGANT-- USING A GLOBAL (should read and pass it)
-		
-//	public boolean fRemoveAdvanced=false; // remove that menu
-	
-
-	
-	VerticalPanel fInputPanel = new VerticalPanel(); // for BugAlert and TreeInputPane  
+	VerticalPanel fInputPanel = new VerticalPanel(); // for BugAlert and ProofInputPane  
     
 	
-	TProofDisplayCellTable fDisplayTable = new TProofDisplayCellTable();//replaces TreePanel
+	TProofDisplayCellTable fDisplayTable = new TProofDisplayCellTable();//replaces ProofPanel
 	ScrollPanel fScrollPanel=null; //holds the displayed table
 	GWTSymbolToolbar fSymbolToolbar;  // tend to use this in preference to the JournalPane
 	final TextArea fJournalPane = new TextArea();// often not visible, if using buttons to start
@@ -80,18 +89,18 @@ public class Proofs implements EntryPoint, TJournal, TReset {
 	
 	MenuBar fMenuBar = new MenuBar();  //true makes it vertical
 	
-
+/*
   
    
     Button fAndButton= new Button("&E",new ClickHandler(){@Override 
 				public void onClick(ClickEvent event) {
-    			fProofController.extendTree();}});
+    			fProofController.extendTree();}}); */
     
-    
+    /*
     
     Button fExtendButton= new Button("Extend",new ClickHandler(){@Override 
 				public void onClick(ClickEvent event) {
-    			fProofController.extendTree();}});	
+    			fProofController.extendTree();}});	*/
   
     
 
@@ -235,13 +244,14 @@ void buildMenuButtons(){
 	
 }
 
+/*2015
 void buildModalMenuButtons(){
 	Widget[] menuButtons={fExtendButton,/* fCloseButton, fIsClosedButton, fOpenBranchButton,
-			fIdentityIntroButton*/};
+			fIdentityIntroButton};
 	
 	if (fPropLevel)
        {
-		Widget[] simpleButtons={fExtendButton, /* fCloseButton, fIsClosedButton, fOpenBranchButton*/};
+		Widget[] simpleButtons={fExtendButton, /* fCloseButton, fIsClosedButton, fOpenBranchButton};
 		menuButtons=simpleButtons;
        }
 	int dummy=0;
@@ -251,7 +261,7 @@ void buildModalMenuButtons(){
 	if (RootPanel.get("modalmenubuttons")!=null)
 		RootPanel.get("modalmenubuttons").add(fModalMenuButtonsPanel);
 	
-}
+} */
 
 	
 
@@ -335,18 +345,7 @@ void someDebugCode(){
 
 	} //endif debug  DEBUG
 	
-	if (fDebug)
-	;//	RootPanel.get("treeContainer").add(fGWTTree);
-	
-	if (fDebug){
-		Button extendButton=new Button("Extend");
 
-		ExtendHandler extHandler = new ExtendHandler();
-		extendButton.addClickHandler(extHandler);
-
-		if 	(RootPanel.get("extend")!=null)
-			RootPanel.get("extend").add(extendButton);
-		}
 	
 }
 
@@ -360,7 +359,7 @@ buildMenus();
 
 buildMenuButtons();
 
-buildModalMenuButtons();	
+// 2015 buildModalMenuButtons();	
  
 Widget [] paramButtons =readParamProofs();
 
@@ -488,78 +487,29 @@ boolean lambda=false,modal=false,settheory=false;
 		RootPanel.get("journal").add(fTextForJournal);
 	
 	
-	
-	//RootPanel.get("richText").add(startButton());
 	if 	(RootPanel.get("startButton")!=null)
 		RootPanel.get("startButton").add(startButton());
 	
-	//String label, RichTextArea textField, Widget [] components
-	
-	//PushButton aWidget= new PushButton();
+
 	Button aWidget= fProofController.cancelButton();
 	Widget [] components ={aWidget};
 	
 	
 	TGWTTreeInputPanel fInputPane = new TGWTTreeInputPanel("Hello",new  TextBox(),components);
-	
 
-	/* this works
-	RootPanel.get("richText").add(fInputPanel);
-	
-	fInputPanel.add(fInputPane); */
-	
-	
-	
-	
-	
-	
-/*	
-	if (symbols==null)
-		symbols="";
-	
-	fPalette= new Palette(symbols,fJournalPane);
-	fPalette.setSize(new Dimension(330, 32));  //was 21
-	fPalette.setMaximumSize(new Dimension(330, 32));
-	fPalette.setMinimumSize(new Dimension(330, 32));
-	fPalette.setPreferredSize(new Dimension(330, 32));
-	
-	fSymbolToolbar= new SymbolToolbar(symbols,fJournalPane);
-	
-	
-	 contentPane.add(/*fPalette fSymbolToolbar,new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
-		       ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));	
-	
-	
-	int depth =fJournalPane.getPreferredSize().height;	
-	// put the journal in a scroller	
-	JScrollPane aScroller= new JScrollPane(fJournalPane);
-	aScroller.setPreferredSize(fJournalPreferredSize);
-	aScroller.setMinimumSize(new Dimension(300,200));
-	aScroller.setMinimumSize(new Dimension(380,200));
-	aScroller.setMinimumSize(new Dimension(360,200));
-	// put scroller and button in components
-	JComponent[] components= {aScroller,startButton()};
-	
-	initializeComponentsPanel(components,depth);
-	// put compenents in content
-	 contentPane.add(fComponentsPanel,new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
-		       ,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 10, 0), 0, 0));	
-	*/
 }
 
-
+/* 2015
 
 class ExtendHandler implements ClickHandler {
-	/**
-	 * Fired when the user clicks on the sendButton.
-	 */
+
 	public void onClick(ClickEvent event) {
 		
 		fProofController.extendTree();
 		
 	}
 
-}	
+}	*/
 
 
 
@@ -679,7 +629,6 @@ Widget [] readParamProofs(){
 
 
 
-
 Button proofButton(String label, final String inputStr){
 	Button button = new Button(label);	
 	
@@ -687,14 +636,6 @@ Button proofButton(String label, final String inputStr){
 	ProofHandler pHandler = new ProofHandler(inputStr);
 	button.addClickHandler(pHandler);
 
-	/*
-	
-	button.addActionListener(new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			String filteredStr=TUtilities.logicFilter(inputStr);
-    //     filteredStr=TUtilities.htmlEscToUnicodeFilter(filteredStr);
-		fTreePanel.startTree(filteredStr);
-		}}); */
 	return
 	   button;
 }
@@ -709,20 +650,12 @@ Button startButton(){
 			
 			filteredStr=TUtilities.htmlEscToUnicodeFilter(filteredStr);
 			// some might be &amp; etc.
-		
-		
+			
 				fProofController.startProof(filteredStr);
 		}
 			});
 	
-	
-	
-	
-	
-	/*	button.addActionListener(new ActionListener(){
-		public void actionPerformed(ActionEvent e){
-			readAndStart();
-		}}); */
+
 	return
 	   button;
 }
@@ -730,14 +663,6 @@ Button startButton(){
 /***********************  End of Buttons ***************************/
 
 
-
-
-
-	
-	
-	
-	
-	
 	
 
 /*****************  Commands ************************/
@@ -797,27 +722,6 @@ Button startButton(){
 	}	
 	
 	
-	
-/*
- * JButton proofButton(String label, final String inputStr){
-		JButton button = new JButton(label);	    
-		button.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				String filteredStr=TUtilities.logicFilter(inputStr);
-        //     filteredStr=TUtilities.htmlEscToUnicodeFilter(filteredStr);
-			fTreePanel.startTree(filteredStr);
-			}});
-		return
-		   button;
-	}
- * 
- * 
- * */	
-
-		
-
-	
-
 
 
 
@@ -988,9 +892,7 @@ public int getSelectionEnd(RichTextArea text){
 			String selStr=allText.substring(startSel+tagLength, endSel);
 		
 			aFormatter.removeLink();
-			
-			
-			
+					
 		
 		//There is a problem, if there was no selection, the text of the link will be
 		// inserted as extra text changing it.
@@ -1036,29 +938,6 @@ public void writeToJournal(String message, boolean highlight,boolean toMarker){
 	
 	fTextForJournal.setHTML(before+message+after);   //No highlighting yet
 
-
-/*        int newCaretPosition = fJournalPane.getSelectionEnd(); //if there isn't one it's dot which is the old one
-
-        int messageLength = message.length();
-
-        if (messageLength>0) {
-
-          fJournalPane.setSelectionStart(newCaretPosition);
-          fJournalPane.setCaretPosition(newCaretPosition);    //leave existing selection and do everything after
-
-          fJournalPane.replaceSelection(message);
-
-          if (highlight) {
-            fJournalPane.setSelectionStart(newCaretPosition);
-            fJournalPane.setSelectionEnd(newCaretPosition+messageLength);
-
-          }
-
-          fJournalPane.requestFocusInWindow(); //new Oct09
-        }
-     }	
-	
-*/
 }
 
 
