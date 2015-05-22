@@ -16,6 +16,8 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 package us.softoption.interpretation;
 
+//scanned through 5/22/2015
+
 import us.softoption.infrastructure.TFlag;
 import us.softoption.infrastructure.TUtilities;
 import us.softoption.parser.TFormula;

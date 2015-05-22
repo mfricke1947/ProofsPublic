@@ -16,6 +16,8 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 package us.softoption.infrastructure;
 
+//scanned through 5/22/2015
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -57,27 +59,7 @@ void initialize(){
 	
 }
 	
-void initializeSymbolButton(JButton button, final String symbol){
-	
-	//button.putClientProperty( "JButton.buttonType", "square"  ); // for Mac Aqua
-	
-/*	button.setSize(32, 30);  // March 09 was 22x20
-	button.setPreferredSize(new Dimension(32, 30));   // was 21x20
-	button.setMinimumSize(new Dimension(32, 30));   // was 21x20   new
-	
-	button.setMargin(new Insets(0, 0, 0, 0));
-
-	
-	button.setText(symbol);
-	*/
-	
-	
-	
-	
-	//button.putClientProperty( "JButton.buttonType", "toolbar"  );  March 09, not displaying well on Aqua
-
-	//button.putClientProperty( "JComponent.sizeVariant", "mini" );  //March09
-	
+void initializeSymbolButton(JButton button, final String symbol){	
 	
 	button.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent e){

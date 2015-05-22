@@ -16,6 +16,8 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 package us.softoption.proofs;
 
+//scanned through 5/22/2015
+
 /*This is a Feb2013 Google GWT friendly version of 2012 TMergeData */
 
 import javax.swing.UIManager;

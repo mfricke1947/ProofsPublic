@@ -21,11 +21,7 @@ import static us.softoption.infrastructure.Symbols.strNull;
 
 import java.util.ArrayList;
 
-
-
 // 11/1/08
-
-
 
 public class TUtilities{
 
@@ -437,12 +433,7 @@ static public String addSpaceToInnerParantheses(String inputStr){
     	   else   	   
     	   tempBuffer.append(inputStr.charAt(i));
        }
-       
-       
-       
-       
-       
-       
+          
        return
            tempBuffer.toString();
 

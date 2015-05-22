@@ -1,3 +1,4 @@
+5. Read through 5/22/2015
 
 4. Item 3 now done 1/2/2014
 

@@ -14,11 +14,9 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-// 5/21/2015
-
 package us.softoption.gwt.proofs.client;
  
-
+//scanned through 5/22/2015
 
 import static us.softoption.infrastructure.Symbols.strNull;
 import us.softoption.editor.TJournal;
@@ -89,44 +87,14 @@ public class Proofs implements EntryPoint, TJournal, TReset {
 	
 	MenuBar fMenuBar = new MenuBar();  //true makes it vertical
 	
-/*
-  
-   
-    Button fAndButton= new Button("&E",new ClickHandler(){@Override 
-				public void onClick(ClickEvent event) {
-    			fProofController.extendTree();}}); */
-    
-    /*
-    
-    Button fExtendButton= new Button("Extend",new ClickHandler(){@Override 
-				public void onClick(ClickEvent event) {
-    			fProofController.extendTree();}});	*/
-  
-    
-
-    
-
-	
 	static boolean fPropLevel=false;
 	
 	static final boolean HIGHLIGHT = true;
-	
-	 //Palette fPalette;
-	 //SymbolToolbar fSymbolToolbar;
-	 
-	// HTMLEditorKit fEditorKit;
-	 Label  fLabel=new Label("Trees");
-	 //JPanel fComponentsPanel;    //usually buttons
 
-	 String fInputText=null;
-	 
-	// Dimension fPreferredSize=new Dimension(600,400);
-	 //Dimension fMinimumSize=new Dimension(/*500*/ 540,300);
-	// Dimension fJournalPreferredSize=new Dimension(600,300);
-	
+	Label  fLabel=new Label("Trees");  //must have come from the Trees code
 
-	//TGWTTree fGWTTree= new TGWTTree();
-	
+	String fInputText=null;
+
 	boolean fDebug=false;
 	
 	boolean fExtraDebug=false;
@@ -146,21 +114,11 @@ public class Proofs implements EntryPoint, TJournal, TReset {
 	
 	
 void buildMenus(){
-	
-	
-/************ Jan 20/ */
-
 
 if (fProofController!=null){
    fMenuBar=fProofController.createMenuBar();
 }
 
-	
-	
-	
-	
-	
-/**************** */
 	
 if 	(RootPanel.get("menu")!=null)
 	RootPanel.get("menu").add(fMenuBar);  //commented back in Jan 20 2013
@@ -222,14 +180,7 @@ void buildMenuButtons(){
 		menuButtons=fProofController.getButtons();
 		editButtons=fProofController.getEditButtons();
 	}
-/*	
-	
-	if (fPropLevel)
-       {
-		Widget[] simpleButtons={fAndButton,fExtendButton, fCloseButton, fIsClosedButton, fOpenBranchButton};
-		menuButtons=simpleButtons;
-       }
-*/	
+
 	int dummy=0;
 	
 	initializeRuleButtons(menuButtons,dummy);
@@ -242,112 +193,7 @@ void buildMenuButtons(){
 	if 	(RootPanel.get("editbuttons")!=null)
 			RootPanel.get("editbuttons").add(fEditButtonsPanel);
 	
-}
-
-/*2015
-void buildModalMenuButtons(){
-	Widget[] menuButtons={fExtendButton,/* fCloseButton, fIsClosedButton, fOpenBranchButton,
-			fIdentityIntroButton};
-	
-	if (fPropLevel)
-       {
-		Widget[] simpleButtons={fExtendButton, /* fCloseButton, fIsClosedButton, fOpenBranchButton};
-		menuButtons=simpleButtons;
-       }
-	int dummy=0;
-	
-	initializeModalMenuButtons(menuButtons,dummy);
-	
-	if (RootPanel.get("modalmenubuttons")!=null)
-		RootPanel.get("modalmenubuttons").add(fModalMenuButtonsPanel);
-	
-} */
-
-	
-
-void someDebugCode(){
-	if (fExtraDebug){
-	    fInputPanel.addStyleName("inputPanel");
-	    if 	(RootPanel.get("inputPanel")!=null)
-	    	RootPanel.get("inputPanel").add(fInputPanel);  
-	    
-		Button aWidget= fProofController.cancelButton();
-		Widget [] components ={aWidget};
-		
-		/*  this works
-		fProofController.doUni(null,null,3);
-	*/	
-	/*  this works
-		
-		TGWTTreeInputPanel testPane = new TGWTTreeInputPanel("Hello",new  TextBox(),components);
-		
-		fProofController.addInputPane(testPane);
-		
-	*/	
-		/* this works
-		RootPanel.get("richText").add(fInputPanel); */
-		
-//		fInputPanel.add(testPane); 
-		
-//		fProofController.bugAlert("Ullo", "lop");
-		
-		fJournalPane.addStyleName("journal");
-
-		if 	(RootPanel.get("journal")!=null)
-			RootPanel.get("journal").add(fJournalPane);
-		
-		 fJournalPane.setText("Journal");
-	}
-		
-
-		
-		// we'll use css to style
-	   
-	if (fDebug)	{
-		fJournalPane.setCharacterWidth(69);
-	    if ((TPreferencesData.fJournalSize!=null)&&
-		   (TPreferencesData.fJournalSize.equals("large"))){
-				  fJournalPane.setVisibleLines(25);
-			   }
-	    else
-	    	fJournalPane.setVisibleLines(12);
-//		fJournalPane.setSize("400px","400px");
-	    fJournalPane.setText(TPreferencesData.fInputText);
-	    
-	    fJournalPane.addStyleName("journal");
-	    
-	 //   fPropLevel=TPreferencesData.fPropLevel;
-
-
-	// We can add style names to widgets
-//		sendButton.addStyleName("sendButton");
-
-	// Add the nameField and sendButton to the RootPanel
-	// Use RootPanel.get() to get the entire body element
-
-	  //  fInputPanel.addStyleName("input");
-	    
-	    if 	(RootPanel.get("inputPanel")!=null)
-	    	RootPanel.get("inputPanel").add(fInputPanel);   
-	    
-	    
-	    fProofController.bugAlert("Ullo", "lop");
-	    
-	    
-	fJournalPane.addStyleName("journal");
-
-	if 	(RootPanel.get("journal")!=null)
-		RootPanel.get("journal").add(fJournalPane);
-
-	//RootPanel.get("treeContainer").add(fTreeCellTable);
-
-	//RootPanel.get().add(fGrid);
-
-	} //endif debug  DEBUG
-	
-
-	
-}
+}	
 
 
 void createGUI(){
@@ -358,8 +204,7 @@ if (fDebug)
 buildMenus();
 
 buildMenuButtons();
-
-// 2015 buildModalMenuButtons();	
+	
  
 Widget [] paramButtons =readParamProofs();
 
@@ -383,8 +228,6 @@ fProofController.startProof("");   // gwt does not like no proof at all
 
 
 }
-
-
 
 
 void finishNoPalette(Widget [] components){
@@ -441,7 +284,7 @@ void initializeEditButtons(Widget [] components,int depth){
 				    }
 				}
 
-void initializeModalMenuButtons(Widget [] components,int depth){
+/*void initializeModalMenuButtons(Widget [] components,int depth){
 		
 	
 	fModalMenuButtonsPanel.setStyleName("modalmenubuttons");
@@ -459,7 +302,7 @@ void initializeModalMenuButtons(Widget [] components,int depth){
 		fModalMenuButtonsPanel.add(buttons[i]);	
 		
 	}
-}	
+}	*/
 
 
 
@@ -498,19 +341,6 @@ boolean lambda=false,modal=false,settheory=false;
 	TGWTTreeInputPanel fInputPane = new TGWTTreeInputPanel("Hello",new  TextBox(),components);
 
 }
-
-/* 2015
-
-class ExtendHandler implements ClickHandler {
-
-	public void onClick(ClickEvent event) {
-		
-		fProofController.extendTree();
-		
-	}
-
-}	*/
-
 
 
 void setLocalParameters(){
@@ -661,14 +491,6 @@ Button startButton(){
 }
 
 /***********************  End of Buttons ***************************/
-
-
-	
-
-/*****************  Commands ************************/
-	
-
-
 
 
 
@@ -841,6 +663,7 @@ void testEverything(FlexTable t){
 }
 
 /************ TO DO TO IMPLEMENT TJOURNAL INTERFACE *************/
+
 public void writeHTMLToJournal(String message,boolean append){
 // haven't written it yet
 	if (append)
@@ -950,6 +773,90 @@ public void writeToJournal(String message, boolean highlight,boolean toMarker){
 
 
 /*************************************************************/
+
+void someDebugCode(){
+	if (fExtraDebug){
+	    fInputPanel.addStyleName("inputPanel");
+	    if 	(RootPanel.get("inputPanel")!=null)
+	    	RootPanel.get("inputPanel").add(fInputPanel);  
+	    
+		Button aWidget= fProofController.cancelButton();
+		Widget [] components ={aWidget};
+		
+		/*  this works
+		fProofController.doUni(null,null,3);
+	*/	
+	/*  this works
+		
+		TGWTTreeInputPanel testPane = new TGWTTreeInputPanel("Hello",new  TextBox(),components);
+		
+		fProofController.addInputPane(testPane);
+		
+	*/	
+		/* this works
+		RootPanel.get("richText").add(fInputPanel); */
+		
+//		fInputPanel.add(testPane); 
+		
+//		fProofController.bugAlert("Ullo", "lop");
+		
+		fJournalPane.addStyleName("journal");
+
+		if 	(RootPanel.get("journal")!=null)
+			RootPanel.get("journal").add(fJournalPane);
+		
+		 fJournalPane.setText("Journal");
+	}
+		
+
+		
+		// we'll use css to style
+	   
+	if (fDebug)	{
+		fJournalPane.setCharacterWidth(69);
+	    if ((TPreferencesData.fJournalSize!=null)&&
+		   (TPreferencesData.fJournalSize.equals("large"))){
+				  fJournalPane.setVisibleLines(25);
+			   }
+	    else
+	    	fJournalPane.setVisibleLines(12);
+//		fJournalPane.setSize("400px","400px");
+	    fJournalPane.setText(TPreferencesData.fInputText);
+	    
+	    fJournalPane.addStyleName("journal");
+	    
+	 //   fPropLevel=TPreferencesData.fPropLevel;
+
+
+	// We can add style names to widgets
+//		sendButton.addStyleName("sendButton");
+
+	// Add the nameField and sendButton to the RootPanel
+	// Use RootPanel.get() to get the entire body element
+
+	  //  fInputPanel.addStyleName("input");
+	    
+	    if 	(RootPanel.get("inputPanel")!=null)
+	    	RootPanel.get("inputPanel").add(fInputPanel);   
+	    
+	    
+	    fProofController.bugAlert("Ullo", "lop");
+	    
+	    
+	fJournalPane.addStyleName("journal");
+
+	if 	(RootPanel.get("journal")!=null)
+		RootPanel.get("journal").add(fJournalPane);
+
+	//RootPanel.get("treeContainer").add(fTreeCellTable);
+
+	//RootPanel.get().add(fGrid);
+
+	} //endif debug  DEBUG
+	
+
+	
+}
 
 }
 

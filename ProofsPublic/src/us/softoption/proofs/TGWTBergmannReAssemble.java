@@ -16,7 +16,17 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 package us.softoption.proofs;
 
+//scanned through 5/22/2015
+
 /*This is a Jan2014 Google GWT friendly version of 2012 TBergmannReAssemble */
+
+/*To understand the algorithms here, you might want to check
+ * 
+ * Frické, M [2012] 'Best-path theorem proving: compiling derivations', 
+ * Chapter in Rationis Defensor: Essays in Honour of Colin Cheyne. Springer, 
+ * 2012, ISBN-10: 9400739826, pp. 255- 275.
+ * 
+ */
 
 import us.softoption.parser.TParser;
 import us.softoption.interpretation.*;

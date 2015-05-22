@@ -18,6 +18,8 @@ package us.softoption.proofs;
 
 /*This is a Feb2013 Google GWT friendly version of 2012 TRewriteRules */
 
+//scanned through 5/22/2015
+
 
 import static us.softoption.infrastructure.Symbols.chAnd;
 import static us.softoption.infrastructure.Symbols.chEquiv;

@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.TextArea;
 
 //some scrap at the bottom
 
-public class TGwtUtilities{
+public class TGWTUtilities{
 	
 static public void writeOverJournalSelection(TextArea journal, String message){
 
@@ -96,12 +96,4 @@ static public void writeOverJournalSelection(TextArea journal, String message){
          }
       }	
 	
-
- 
- 
- 
- 
- 
- 
-
 }

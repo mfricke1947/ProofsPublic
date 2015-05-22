@@ -16,6 +16,8 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 package us.softoption.proofs;
 
+//scanned through 5/22/2015
+
 import static us.softoption.infrastructure.Symbols.chExiquant;
 import static us.softoption.infrastructure.Symbols.chInsertMarker;
 import static us.softoption.infrastructure.Symbols.chNeg;

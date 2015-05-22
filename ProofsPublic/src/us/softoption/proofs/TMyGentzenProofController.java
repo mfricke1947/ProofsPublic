@@ -16,6 +16,8 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 package us.softoption.proofs;
 
+//scanned through 5/22/2015
+
 import us.softoption.editor.TJournal;
 import us.softoption.editor.TReset;
 import us.softoption.parser.TGentzenParser;

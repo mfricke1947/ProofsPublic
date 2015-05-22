@@ -16,6 +16,8 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 package us.softoption.infrastructure;
 
+//scanned through 5/22/2015
+
 public class Symbols {
 	
 	
@@ -160,10 +162,10 @@ public class Symbols {
 	public static final char chUniverseSet = 'Ü'; //'U'; German U-umlaut symbol and it is typed by following option-u with uppercase-U
 	public static final String strUniverseSet = "Ü"; //="U";
         
-        /*In set theory, the universet set is usually upper-case U (and it is a constant
+        /*In set theory, the universe set is usually upper-case U (and it is a constant
         but we already have upper-case U as a proposition, predicate relation etc. which
         would mean that UU or even UUUUUUU are well-formed, but hard to parse, so we use the
-        German up-case Ü for the universet set.
+        German up-case Ü for the universe set.
         */
 	
 	public static final char chDownTack = '\u22A4';   //the single letter symbol for true
@@ -225,12 +227,7 @@ public class Symbols {
 	public static final String lispFilterOut="[" + strCR+"]";   // changes a return to a blank which is a separator
 	public static final String lispFilterIn="[" + chBlank+"]";
 
-
-
 	public static String negationChs = "~"+chNeg+chNotSign+chNeg3+chNeg4;
-	
-	
-
 
 	public static String implicChs = String.valueOf(chImplic) + chArrow;
 

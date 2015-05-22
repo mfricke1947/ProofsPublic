@@ -17,6 +17,8 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 package us.softoption.infrastructure;
 
+//scanned through 5/22/2015
+
 import com.google.gwt.i18n.client.Dictionary;
 
 
